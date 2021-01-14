@@ -1,25 +1,30 @@
-import logo from './logo.svg';
+import logo from './basic_back_1.png';
 import './App.css';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-function App() {
+function App(props) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Hello World! {props.name}</h1>
+      <DrawPile/>
     </div>
+    
   );
+}
+
+class DrawPile extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {cardCount: 10};
+  }
+  render() {
+    return (
+      <div className="DrawPile">
+        <img className="Draw" src={logo}/>
+      </div>
+    );
+  }
 }
 
 export default App;
