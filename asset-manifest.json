@@ -1,23 +1,32 @@
 {
   "files": {
-    "main.css": "/arnak_solo/static/css/main.caced06e.chunk.css",
-    "main.js": "/arnak_solo/static/js/main.8b5e9541.chunk.js",
-    "main.js.map": "/arnak_solo/static/js/main.8b5e9541.chunk.js.map",
-    "runtime-main.js": "/arnak_solo/static/js/runtime-main.bca52d37.js",
-    "runtime-main.js.map": "/arnak_solo/static/js/runtime-main.bca52d37.js.map",
-    "static/js/2.ff5364b1.chunk.js": "/arnak_solo/static/js/2.ff5364b1.chunk.js",
-    "static/js/2.ff5364b1.chunk.js.map": "/arnak_solo/static/js/2.ff5364b1.chunk.js.map",
-    "static/js/3.a4ff51c5.chunk.js": "/arnak_solo/static/js/3.a4ff51c5.chunk.js",
-    "static/js/3.a4ff51c5.chunk.js.map": "/arnak_solo/static/js/3.a4ff51c5.chunk.js.map",
+    "main.css": "/arnak_solo/static/css/main.1c8fabc1.chunk.css",
+    "main.js": "/arnak_solo/static/js/main.4546bd98.chunk.js",
+    "main.js.map": "/arnak_solo/static/js/main.4546bd98.chunk.js.map",
+    "runtime-main.js": "/arnak_solo/static/js/runtime-main.c368bb9e.js",
+    "runtime-main.js.map": "/arnak_solo/static/js/runtime-main.c368bb9e.js.map",
+    "static/js/2.351d2794.chunk.js": "/arnak_solo/static/js/2.351d2794.chunk.js",
+    "static/js/2.351d2794.chunk.js.map": "/arnak_solo/static/js/2.351d2794.chunk.js.map",
+    "static/js/3.6fcacb49.chunk.js": "/arnak_solo/static/js/3.6fcacb49.chunk.js",
+    "static/js/3.6fcacb49.chunk.js.map": "/arnak_solo/static/js/3.6fcacb49.chunk.js.map",
     "index.html": "/arnak_solo/index.html",
-    "static/css/main.caced06e.chunk.css.map": "/arnak_solo/static/css/main.caced06e.chunk.css.map",
-    "static/js/2.ff5364b1.chunk.js.LICENSE.txt": "/arnak_solo/static/js/2.ff5364b1.chunk.js.LICENSE.txt",
-    "static/media/basic_back_1.7c0b4ab0.png": "/arnak_solo/static/media/basic_back_1.7c0b4ab0.png"
+    "static/css/main.1c8fabc1.chunk.css.map": "/arnak_solo/static/css/main.1c8fabc1.chunk.css.map",
+    "static/js/2.351d2794.chunk.js.LICENSE.txt": "/arnak_solo/static/js/2.351d2794.chunk.js.LICENSE.txt",
+    "static/media/back_basic_1.7c0b4ab0.png": "/arnak_solo/static/media/back_basic_1.7c0b4ab0.png",
+    "static/media/back_basic_2.d25adc44.png": "/arnak_solo/static/media/back_basic_2.d25adc44.png",
+    "static/media/back_basic_3.543231fa.png": "/arnak_solo/static/media/back_basic_3.543231fa.png",
+    "static/media/back_basic_4.3170a442.png": "/arnak_solo/static/media/back_basic_4.3170a442.png",
+    "static/media/back_basic_5.93b07908.png": "/arnak_solo/static/media/back_basic_5.93b07908.png",
+    "static/media/basic_front_1.2fee07ec.png": "/arnak_solo/static/media/basic_front_1.2fee07ec.png",
+    "static/media/basic_front_2.c502fa87.png": "/arnak_solo/static/media/basic_front_2.c502fa87.png",
+    "static/media/basic_front_3.794612d8.png": "/arnak_solo/static/media/basic_front_3.794612d8.png",
+    "static/media/basic_front_4.46b1bc0b.png": "/arnak_solo/static/media/basic_front_4.46b1bc0b.png",
+    "static/media/basic_front_5.f420f6d7.png": "/arnak_solo/static/media/basic_front_5.f420f6d7.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.bca52d37.js",
-    "static/js/2.ff5364b1.chunk.js",
-    "static/css/main.caced06e.chunk.css",
-    "static/js/main.8b5e9541.chunk.js"
+    "static/js/runtime-main.c368bb9e.js",
+    "static/js/2.351d2794.chunk.js",
+    "static/css/main.1c8fabc1.chunk.css",
+    "static/js/main.4546bd98.chunk.js"
   ]
 }
