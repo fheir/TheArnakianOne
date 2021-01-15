@@ -94,24 +94,52 @@ function App(props) {
   );
 }
 
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
 class GameController extends React.Component {
   constructor(props) {
     super(props);
-    // array of cards
-    //pass in array of cards into the piles
     this.state = 
       {
-        cardsInDeck: BasicCards.slice(),
-        cardsInDiscard: [testCard]
+        cardsInDeck: shuffle(BasicCards.slice()),
+        cardsInDiscard: []
       };
-    var cardTotal = 10;
+  }
+
+  handleDrawCard() {
+    var drawPile = this.state.cardsInDeck.slice();
+    var newDiscard = this.state.cardsInDiscard.slice(); 
+    newDiscard.push(drawPile.splice(drawPile.length - 1, 1)[0]);
+
+    this.setState(() => ({
+      cardsInDeck: drawPile,
+      cardsInDiscard: newDiscard
+    }));
+
   }
 
   render() {
     return (
       <div className="float-container">
-        <DrawPile cards={this.state.cardsInDeck} name="draw-pile" canDraw ={true}/>
-        <DrawPile cards={this.state.cardsInDiscard} name="discard-pile" canDraw={false}/>
+        <DrawPile cards={this.state.cardsInDeck} name="draw-pile" canDraw ={this.state.cardsInDeck.length > 0} index={this.state.cardsInDeck.length > 0 ? this.state.cardsInDeck.length-1 : 0} onClick={() => this.handleDrawCard()}/>
+        <DrawPile cards={this.state.cardsInDiscard} name="discard-pile" canDraw={false} index={this.state.cardsInDiscard.length > 0 ? this.state.cardsInDiscard.length-1 : 0}/>
       </div>
     );
   }
@@ -120,19 +148,15 @@ class GameController extends React.Component {
 class DrawPile extends React.Component {
   constructor(props) {
     super(props);
-    this.drawCard = this.drawCard.bind(this);
-  }
-  
-  drawCard() {
-    
   }
 
   render() {
     return (
       <div className={this.props.name}>
-        <img className="Draw" src={this.props.cards[0] ? this.props.cards[0].front : null}/>
+        {console.log(this.props.cards)}
+        <img className="Draw" src={this.props.cards[this.props.index] ? (this.props.canDraw ? this.props.cards[this.props.index].back : this.props.cards[this.props.index].front) : null}/>
         <h1>{this.props.cards.length}</h1>
-        {this.props.canDraw ? <button onClick={this.drawCard}>Draw</button> : null}
+        {this.props.canDraw ? <button onClick={() => this.props.onClick()}>Draw</button> : null}
       </div>
     );
   }
