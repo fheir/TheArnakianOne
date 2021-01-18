@@ -86,11 +86,10 @@ const testCard = {
 
 function App(props) {
   return (
-    <div>
+    <div className='root-container'>
       <h1>Hello World! {props.name}</h1>
-      <GameController/>
-    </div>
-    
+      <GameController className='cards-container'/>
+    </div> 
   );
 }
 
@@ -103,6 +102,16 @@ function shuffle(a) {
       a[j] = x;
   }
   return a;
+}
+
+class DifficultyController extends React.Component {
+  render() {
+    return (
+      <div className="float-container">
+       
+      </div>
+    );
+  }
 }
 
 class GameController extends React.Component {
@@ -128,7 +137,7 @@ class GameController extends React.Component {
 
   render() {
     return (
-      <div className="float-container">
+      <div className='cards-container'>
         <DrawPile cards={this.state.cardsInDeck} name="draw-pile" canDraw ={this.state.cardsInDeck.length > 0} index={this.state.cardsInDeck.length > 0 ? this.state.cardsInDeck.length-1 : 0} onClick={() => this.handleDrawCard()}/>
         <DrawPile cards={this.state.cardsInDiscard} name="discard-pile" canDraw={false} index={this.state.cardsInDiscard.length > 0 ? this.state.cardsInDiscard.length-1 : 0}/>
       </div>
