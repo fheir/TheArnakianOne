@@ -1,24 +1,6 @@
 import backRight from './images/back_right.png';
 import backLeft from './images/back_left.png';
 
-// import greenBack1 from './images/back_green_1.png';
-// import greenBack2 from './images/back_green_2.png';
-// import greenBack3 from './images/back_green_3.png';
-// import greenBack4 from './images/back_green_4.png';
-// import greenBack5 from './images/back_green_5.png';
-
-// import redBack1 from './images/back_red_1.png';
-// import redBack2 from './images/back_red_2.png';
-// import redBack3 from './images/back_red_3.png';
-// import redBack4 from './images/back_red_4.png';
-// import redBack5 from './images/back_red_5.png';
-
-// import purpleBack1 from './images/back_purple_1.png';
-// import purpleBack2 from './images/back_purple_2.png';
-// import purpleBack3 from './images/back_purple_3.png';
-// import purpleBack4 from './images/back_purple_4.png';
-// import purpleBack5 from './images/back_purple_5.png';
-
 import basicFront1 from './images/basic_front_1.png';
 import basicFront2 from './images/basic_front_2.png';
 import basicFront3 from './images/basic_front_3.png';
@@ -45,7 +27,10 @@ import purpleFront5 from './images/purple_front_5.png';
 
 import './App.css';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Slider from '@material-ui/core/Slider';
+import Button from '@material-ui/core/Button';
 
 const BasicCards = [
   {
@@ -174,11 +159,20 @@ const PurpleCards = [
   }
 ];
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+}));
+
 function App(props) {
   return (
     <div className='root-container'>
-      <h1>Hello World! {props.name}</h1>
-      <GameController className='cards-container'/>
+      <h1>Lost Ruins of Arnak</h1>
+      <DifficultyController />
+      <GameController />
     </div> 
   );
 }
@@ -195,11 +189,35 @@ function shuffle(a) {
 }
 
 class DifficultyController extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      difficultyText: '5 Purple 5 Red Cards' 
+    }
+  }
   render() {
     return (
-      <div className="float-container">
-       
+    <div className='difficulty-container'>
+      <Typography id="discrete-slider" gutterBottom>
+        Select Difficulty
+      </Typography>
+
+      <div className='slider-container'>
+        <Typography className="difficulty-text">
+          {this.state.difficultyText}
+        </Typography>
+        <Slider
+          className='slider-component'
+          defaultValue={0}
+          aria-labelledby="discrete-slider"
+          valueLabelDisplay="auto"
+          step={1}
+          min={0}
+          max={10}
+        />
       </div>
+    </div>
     );
   }
 }
@@ -246,7 +264,7 @@ class DrawPile extends React.Component {
         {console.log(this.props.cards)}
         <img className="Draw" src={this.props.cards[this.props.index] ? (this.props.canDraw ? this.props.cards[this.props.index].back : this.props.cards[this.props.index].front) : null}/>
         <h1>{this.props.cards.length}</h1>
-        {this.props.canDraw ? <button onClick={() => this.props.onClick()}>Draw</button> : null}
+        {this.props.canDraw ? <Button variant='contained' color="primary" onClick={() => this.props.onClick()}>Draw</Button> : null}
       </div>
     );
   }

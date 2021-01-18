@@ -12,7 +12,7 @@
   overflow: auto;
   border: 3px solid rgb(168, 14, 14);
 
-  background-color: rgb(180, 141, 141);
+  /* background-color: rgb(180, 141, 141); */
   max-height:100vh;
 }
 
@@ -34,6 +34,31 @@
 
 .float-container {
   border: 3px solid rgb(165, 168, 14);
+  padding: 10px;
+}
+
+.slider-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.difficulty-text{
+  width: 50%;
+}
+
+.slider-component {
+  width: 20%;
+}
+
+.difficulty-container {
+  align-items: center;
+  /* justify-content: center; */
+  display: flex;
+  flex-direction: column;
+  border: 3px solid rgb(17, 14, 168);
   padding: 10px;
 }
 
