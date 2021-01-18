@@ -1,8 +1,5 @@
-import basicBack1 from './images/back_basic_1.png';
-import basicBack2 from './images/back_basic_2.png';
-import basicBack3 from './images/back_basic_3.png';
-import basicBack4 from './images/back_basic_4.png';
-import basicBack5 from './images/back_basic_5.png';
+import backRight from './images/back_right.png';
+import backLeft from './images/back_left.png';
 
 // import greenBack1 from './images/back_green_1.png';
 // import greenBack2 from './images/back_green_2.png';
@@ -28,23 +25,23 @@ import basicFront3 from './images/basic_front_3.png';
 import basicFront4 from './images/basic_front_4.png';
 import basicFront5 from './images/basic_front_5.png';
 
-// import greenFront1 from './images/front_green_1.png';
-// import greenFront2 from './images/front_green_2.png';
-// import greenFront3 from './images/front_green_3.png';
-// import greenFront4 from './images/front_green_4.png';
-// import greenFront5 from './images/front_green_5.png';
+import greenFront1 from './images/green_front_1.png';
+import greenFront2 from './images/green_front_2.png';
+import greenFront3 from './images/green_front_3.png';
+import greenFront4 from './images/green_front_4.png';
+import greenFront5 from './images/green_front_5.png';
 
-// import redFront1 from './images/front_red_1.png';
-// import redFront2 from './images/front_red_2.png';
-// import redFront3 from './images/front_red_3.png';
-// import redFront4 from './images/front_red_4.png';
-// import redFront5 from './images/front_red_5.png';
+import redFront1 from './images/red_front_1.png';
+import redFront2 from './images/red_front_2.png';
+import redFront3 from './images/red_front_3.png';
+import redFront4 from './images/red_front_4.png';
+import redFront5 from './images/red_front_5.png';
 
-// import purpleFront1 from './images/front_purple_1.png';
-// import purpleFront2 from './images/front_purple_2.png';
-// import purpleFront3 from './images/front_purple_3.png';
-// import purpleFront4 from './images/front_purple_4.png';
-// import purpleFront5 from './images/front_purple_5.png';
+import purpleFront1 from './images/purple_front_1.png';
+import purpleFront2 from './images/purple_front_2.png';
+import purpleFront3 from './images/purple_front_3.png';
+import purpleFront4 from './images/purple_front_4.png';
+import purpleFront5 from './images/purple_front_5.png';
 
 import './App.css';
 import React from 'react';
@@ -54,35 +51,128 @@ const BasicCards = [
   {
     id: 1,
     front: basicFront1,
-    back: basicBack1
+    back: backRight
   },
   {
     id: 2,
     front: basicFront2,
-    back: basicBack2
+    back: backLeft
   },
   {
     id: 3,
     front: basicFront3,
-    back: basicBack3
+    back: backRight
   },
   {
     id: 4,
     front: basicFront4,
-    back: basicBack4
+    back: backLeft
   },
   {
     id: 5,
     front: basicFront5,
-    back: basicBack5
+    back: backRight
   }
 ];
 
-const testCard = {
-  id: 5,
-    front: basicFront5,
-    back: basicBack5
-}
+const GreenCards = [
+  {
+    id: 1,
+    front: greenFront1,
+    back: backLeft,
+    difficulty: 0
+  },
+  {
+    id: 2,
+    front: greenFront2,
+    back: backRight,
+    difficulty: 0
+  },
+  {
+    id: 3,
+    front: greenFront3,
+    back: backLeft,
+    difficulty: 0
+  },
+  {
+    id: 4,
+    front: greenFront4,
+    back: backRight,
+    difficulty: 0
+  },
+  {
+    id: 5,
+    front: greenFront5,
+    back: backLeft,
+    difficulty: 0
+  }
+];
+
+const RedCards = [
+  {
+    id: 1,
+    front: redFront1,
+    back: backLeft,
+    difficulty: 1
+  },
+  {
+    id: 2,
+    front: redFront2,
+    back: backRight,
+    difficulty: 1
+  },
+  {
+    id: 3,
+    front: redFront3,
+    back: backLeft,
+    difficulty: 1
+  },
+  {
+    id: 4,
+    front: redFront4,
+    back: backRight,
+    difficulty: 1
+  },
+  {
+    id: 5,
+    front: redFront5,
+    back: backLeft,
+    difficulty: 1
+  }
+];
+
+const PurpleCards = [
+  {
+    id: 1,
+    front: purpleFront1,
+    back: backLeft,
+    difficulty: 2
+  },
+  {
+    id: 2,
+    front: purpleFront2,
+    back: backRight,
+    difficulty: 2
+  },
+  {
+    id: 3,
+    front: purpleFront3,
+    back: backLeft,
+    difficulty: 2
+  },
+  {
+    id: 4,
+    front: purpleFront4,
+    back: backRight,
+    difficulty: 2
+  },
+  {
+    id: 5,
+    front: purpleFront5,
+    back: backLeft,
+    difficulty: 2
+  }
+];
 
 function App(props) {
   return (
