@@ -307,10 +307,12 @@ class GameController extends React.Component {
 
       var selectedExtra = extraCards.splice(randomExtraIndex, 1);
       console.log(selectedExtra[0]);
-      selectedCards.push(selectedExtra[0]);
+      selectedCards.push(selectedExtra[0]);    
 
-      var randomBaseIndex = Math.floor(Math.random() * baseCards.length);
-      baseCards.splice(randomBaseIndex, 1);
+      //Remove pair from base cards
+      baseCards = baseCards.filter(function (e) {
+        return e.id != selectedExtra[0].id;
+      });
 
       i++;
     }
