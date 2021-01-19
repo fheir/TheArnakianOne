@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/arnak_solo/static/css/main.707f079e.chunk.css",
-    "main.js": "/arnak_solo/static/js/main.188739e4.chunk.js",
-    "main.js.map": "/arnak_solo/static/js/main.188739e4.chunk.js.map",
-    "runtime-main.js": "/arnak_solo/static/js/runtime-main.c4b8962e.js",
-    "runtime-main.js.map": "/arnak_solo/static/js/runtime-main.c4b8962e.js.map",
-    "static/js/2.79710386.chunk.js": "/arnak_solo/static/js/2.79710386.chunk.js",
-    "static/js/2.79710386.chunk.js.map": "/arnak_solo/static/js/2.79710386.chunk.js.map",
-    "static/js/3.715ff57f.chunk.js": "/arnak_solo/static/js/3.715ff57f.chunk.js",
-    "static/js/3.715ff57f.chunk.js.map": "/arnak_solo/static/js/3.715ff57f.chunk.js.map",
+    "main.js": "/arnak_solo/static/js/main.7125acc9.chunk.js",
+    "main.js.map": "/arnak_solo/static/js/main.7125acc9.chunk.js.map",
+    "runtime-main.js": "/arnak_solo/static/js/runtime-main.243829e1.js",
+    "runtime-main.js.map": "/arnak_solo/static/js/runtime-main.243829e1.js.map",
+    "static/js/2.e043c05b.chunk.js": "/arnak_solo/static/js/2.e043c05b.chunk.js",
+    "static/js/2.e043c05b.chunk.js.map": "/arnak_solo/static/js/2.e043c05b.chunk.js.map",
+    "static/js/3.680bf310.chunk.js": "/arnak_solo/static/js/3.680bf310.chunk.js",
+    "static/js/3.680bf310.chunk.js.map": "/arnak_solo/static/js/3.680bf310.chunk.js.map",
     "index.html": "/arnak_solo/index.html",
     "static/css/main.707f079e.chunk.css.map": "/arnak_solo/static/css/main.707f079e.chunk.css.map",
-    "static/js/2.79710386.chunk.js.LICENSE.txt": "/arnak_solo/static/js/2.79710386.chunk.js.LICENSE.txt",
+    "static/js/2.e043c05b.chunk.js.LICENSE.txt": "/arnak_solo/static/js/2.e043c05b.chunk.js.LICENSE.txt",
     "static/media/back_left.f9380e33.png": "/arnak_solo/static/media/back_left.f9380e33.png",
     "static/media/back_right.5d7514db.png": "/arnak_solo/static/media/back_right.5d7514db.png",
     "static/media/basic_front_1.2fee07ec.png": "/arnak_solo/static/media/basic_front_1.2fee07ec.png",
@@ -36,9 +36,9 @@
     "static/media/red_front_5.ef415b43.png": "/arnak_solo/static/media/red_front_5.ef415b43.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.c4b8962e.js",
-    "static/js/2.79710386.chunk.js",
+    "static/js/runtime-main.243829e1.js",
+    "static/js/2.e043c05b.chunk.js",
     "static/css/main.707f079e.chunk.css",
-    "static/js/main.188739e4.chunk.js"
+    "static/js/main.7125acc9.chunk.js"
   ]
 }
