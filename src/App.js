@@ -171,7 +171,6 @@ function App(props) {
   return (
     <div className='root-container'>
       <h1>Lost Ruins of Arnak</h1>
-      <DifficultyController />
       <GameController />
     </div> 
   );
@@ -198,10 +197,6 @@ class DifficultyController extends React.Component {
     }
   }
 
-componentDidMount() {
-
-}
-
   render() {
     return (
     <div className='difficulty-container'>
@@ -227,7 +222,7 @@ componentDidMount() {
           }))}
         />
       </div>
-      <Button variant='contained' color='primary'>Start</Button>
+      <Button variant='contained' color='primary' onClick={() => this.props.onClick(this.state.difficulty)}>Start</Button>
     </div>
     );
   }
@@ -238,9 +233,64 @@ class GameController extends React.Component {
     super(props);
     this.state = 
       {
-        cardsInDeck: shuffle(BasicCards.slice()),
-        cardsInDiscard: []
+        cardsInDeck: [],
+        cardsInDiscard: [],
+        difficulty: -1 //if -1, render difficulty selector else render draw piles
       };
+
+      this.onDifficultySelected = this.onDifficultySelected.bind(this);
+  }
+
+  onDifficultySelected(selectedDifficulty) {
+    var drawPile = BasicCards.slice();
+
+    if (selectedDifficulty % 5 == 0) {
+      if (selectedDifficulty == 0) {
+        drawPile = shuffle(drawPile.concat(GreenCards));
+      } else if (selectedDifficulty == 5) {
+        drawPile = shuffle(drawPile.concat(RedCards));
+      } else if (selectedDifficulty == 10) {
+        drawPile = shuffle(drawPile.concat(PurpleCards));
+      }
+    } else {
+      var selectedCards = [];
+
+      if (selectedDifficulty < 5) {   
+        selectedCards = this.selectDifficultyCards(selectedDifficulty, GreenCards.slice(), RedCards.slice());
+      } else if (selectedDifficulty > 5) { 
+        selectedCards = this.selectDifficultyCards(selectedDifficulty % 5, RedCards.slice(), PurpleCards.slice());
+      }
+
+      drawPile = shuffle(drawPile.concat(selectedCards));
+    }
+
+    this.setState(() => ({
+      cardsInDeck: drawPile,
+      cardsInDiscard: [],
+      difficulty: selectedDifficulty
+    }));
+  }
+
+  selectDifficultyCards(selectedDifficulty, baseCards, extraCards) {
+    var selectedCards = [];
+    var i = 1;
+
+    while (i <= selectedDifficulty) {
+      var randomExtraIndex = Math.floor(Math.random() * extraCards.length);
+
+      var selectedExtra = extraCards.splice(randomExtraIndex, 1);
+      console.log(selectedExtra[0]);
+      selectedCards.push(selectedExtra[0]);
+
+      var randomBaseIndex = Math.floor(Math.random() * baseCards.length);
+      baseCards.splice(randomBaseIndex, 1);
+
+      i++;
+    }
+    console.log(baseCards);
+
+    selectedCards = selectedCards.concat(baseCards);
+    return selectedCards;
   }
 
   handleDrawCard() {
@@ -257,6 +307,7 @@ class GameController extends React.Component {
   render() {
     return (
       <div className='cards-container'>
+        <DifficultyController onClick={this.onDifficultySelected}/>
         <DrawPile cards={this.state.cardsInDeck} name="draw-pile" canDraw ={this.state.cardsInDeck.length > 0} index={this.state.cardsInDeck.length > 0 ? this.state.cardsInDeck.length-1 : 0} onClick={() => this.handleDrawCard()}/>
         <DrawPile cards={this.state.cardsInDiscard} name="discard-pile" canDraw={false} index={this.state.cardsInDiscard.length > 0 ? this.state.cardsInDiscard.length-1 : 0}/>
       </div>
@@ -272,7 +323,6 @@ class DrawPile extends React.Component {
   render() {
     return (
       <div className={this.props.name}>
-        {console.log(this.props.cards)}
         <img className="Draw" src={this.props.cards[this.props.index] ? (this.props.canDraw ? this.props.cards[this.props.index].back : this.props.cards[this.props.index].front) : null}/>
         <h1>{this.props.cards.length}</h1>
         {this.props.canDraw ? <Button variant='contained' color="primary" onClick={() => this.props.onClick()}>Draw</Button> : null}
