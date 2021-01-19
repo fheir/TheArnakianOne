@@ -258,6 +258,7 @@ class GameController extends React.Component {
     super(props);
     this.state = 
       {
+        selectedDeck: [],
         cardsInDeck: [],
         cardsInDiscard: [],
         difficulty: -1 //if -1, render difficulty selector else render draw piles
@@ -290,7 +291,8 @@ class GameController extends React.Component {
     }
 
     this.setState(() => ({
-      cardsInDeck: drawPile,
+      selectedDeck: drawPile.slice(),
+      cardsInDeck: drawPile.slice(),
       cardsInDiscard: [],
       difficulty: selectedDifficulty
     }));
@@ -319,10 +321,18 @@ class GameController extends React.Component {
   }
 
   handleDrawCard() {
-    var drawPile = this.state.cardsInDeck.slice();
-    var newDiscard = this.state.cardsInDiscard.slice(); 
-    newDiscard.push(drawPile.splice(drawPile.length - 1, 1)[0]);
+    var drawPile = [];
+    var newDiscard = [];
 
+    if (this.state.cardsInDeck.length > 0) {
+      drawPile = this.state.cardsInDeck.slice();
+      newDiscard = this.state.cardsInDiscard.slice(); 
+      newDiscard.push(drawPile.splice(drawPile.length - 1, 1)[0]);
+    } else {
+      drawPile = shuffle(this.state.selectedDeck.slice());
+      newDiscard = [];
+    }
+    
     this.setState(() => ({
       cardsInDeck: drawPile,
       cardsInDiscard: newDiscard
@@ -339,7 +349,7 @@ class GameController extends React.Component {
       difficultyComponent = <DifficultyController onClick={this.onDifficultySelected}/>;
 
     } else {
-      drawComponent = <DrawPile cards={this.state.cardsInDeck} name="draw-pile" canDraw ={this.state.cardsInDeck.length > 0} index={this.state.cardsInDeck.length > 0 ? this.state.cardsInDeck.length-1 : 0} onClick={() => this.handleDrawCard()}/>;
+      drawComponent = <DrawPile cards={this.state.cardsInDeck} name="draw-pile" canDraw ={true} index={this.state.cardsInDeck.length > 0 ? this.state.cardsInDeck.length-1 : 0} onClick={() => this.handleDrawCard()}/>;
       discardComponent = <DrawPile cards={this.state.cardsInDiscard} name="discard-pile" canDraw={false} index={this.state.cardsInDiscard.length > 0 ? this.state.cardsInDiscard.length-1 : 0}/>;
     }
 
@@ -363,7 +373,7 @@ class DrawPile extends React.Component {
       <div className={this.props.name}>
         <img className="Draw" src={this.props.cards[this.props.index] ? (this.props.canDraw ? this.props.cards[this.props.index].back : this.props.cards[this.props.index].front) : null}/>
         <h1>{this.props.cards.length}</h1>
-        {this.props.canDraw ? <Button variant='contained' color="primary" onClick={() => this.props.onClick()}>Draw</Button> : null}
+        {this.props.canDraw ? <Button variant='contained' color="primary" onClick={() => this.props.onClick()}>{this.props.cards.length > 0 ? 'Draw' : 'Next Round'}</Button> : null}
       </div>
     );
   }
