@@ -193,9 +193,15 @@ class DifficultyController extends React.Component {
     super(props);
 
     this.state = {
-      difficultyText: '5 Purple 5 Red Cards' 
+      difficultyText: '5 Purple 5 Red Cards', 
+      difficulty: 0
     }
   }
+
+componentDidMount() {
+
+}
+
   render() {
     return (
     <div className='difficulty-container'>
@@ -205,7 +211,7 @@ class DifficultyController extends React.Component {
 
       <div className='slider-container'>
         <Typography className="difficulty-text">
-          {this.state.difficultyText}
+          {this.state.difficulty} {this.state.difficultyText}
         </Typography>
         <Slider
           className='slider-component'
@@ -215,8 +221,13 @@ class DifficultyController extends React.Component {
           step={1}
           min={0}
           max={10}
+          onChange={(e, value) => this.setState(() => ({
+            difficultyText: 'Hello',
+            difficulty: value
+          }))}
         />
       </div>
+      <Button variant='contained' color='primary'>Start</Button>
     </div>
     );
   }
