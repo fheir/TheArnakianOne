@@ -159,13 +159,7 @@ const PurpleCards = [
   }
 ];
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& > *': {
-      margin: theme.spacing(1),
-    },
-  },
-}));
+const difficultyCardCount = 5;
 
 function App(props) {
   return (
@@ -192,9 +186,34 @@ class DifficultyController extends React.Component {
     super(props);
 
     this.state = {
-      difficultyText: '5 Purple 5 Red Cards', 
+      difficultyText: "5 Green Cards", 
       difficulty: 0
     }
+  }
+
+  friendlyDifficultyString() {
+    var friendlyString = "";
+    if (this.state.difficulty % difficultyCardCount == 0) {
+      if (this.state.difficulty == 0) {
+        console.log('get string');
+
+        friendlyString = "5 Green Cards";
+      } else if (this.state.difficulty == 5) {
+        friendlyString = "5 Red Cards";
+      } else if (this.state.difficulty == 10) {
+        friendlyString = "5 Purple Cards";
+      }
+    } else {
+      var normalizedDifficulty =  this.state.difficulty % 5;
+      var baseCardCount = difficultyCardCount - normalizedDifficulty;
+      if (this.state.difficulty < 5) {   
+        friendlyString = baseCardCount + " Green " + this.state.difficulty + " Red Cards";
+      } else if (this.state.difficulty > 5) { 
+        friendlyString = baseCardCount + " Red " + normalizedDifficulty + " Purple Cards";
+      }
+    }
+
+    return friendlyString;
   }
 
   render() {
@@ -206,7 +225,7 @@ class DifficultyController extends React.Component {
 
       <div className='slider-container'>
         <Typography className="difficulty-text">
-          {this.state.difficulty} {this.state.difficultyText}
+          {this.state.difficultyText}
         </Typography>
         <Slider
           className='slider-component'
@@ -217,7 +236,7 @@ class DifficultyController extends React.Component {
           min={0}
           max={10}
           onChange={(e, value) => this.setState(() => ({
-            difficultyText: 'Hello',
+            difficultyText: this.friendlyDifficultyString(),
             difficulty: value
           }))}
         />
