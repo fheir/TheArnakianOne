@@ -161,10 +161,11 @@ const PurpleCards = [
 
 const difficultyCardCount = 5;
 
+const version = 1;
 function App(props) {
   return (
     <div className='root-container'>
-      <h1>Lost Ruins of Arnak</h1>
+      <h1>Lost Ruins of Arnak - {version}</h1>
       <GameController />
     </div> 
   );
@@ -232,10 +233,15 @@ class DifficultyController extends React.Component {
           defaultValue={0}
           aria-labelledby="discrete-slider"
           valueLabelDisplay="auto"
+          marks={true}
           step={1}
           min={0}
           max={10}
           onChange={(e, value) => this.setState(() => ({
+            difficultyText: this.friendlyDifficultyString(),
+            difficulty: value
+          }))}
+          onChangeCommitted={(e, value) => this.setState(() => ({
             difficultyText: this.friendlyDifficultyString(),
             difficulty: value
           }))}
