@@ -211,13 +211,146 @@ function shuffle(a) {
   return a;
 }
 
+class GameController extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = 
+      {
+        selectedDeck: [],
+        cardsInDeck: [],
+        cardsInDiscard: [],
+        numberOfObjectives:3,
+        selectedObjectives:[],
+        difficulty: -1 //if -1, render difficulty selector else render draw piles
+      };
+
+      this.onDifficultySelected = this.onDifficultySelected.bind(this);
+  }
+
+  onDifficultySelected(selectedDifficulty, numObjectives) {
+    var drawPile = BasicCards.slice();
+
+    if (selectedDifficulty % 5 === 0) {
+      if (selectedDifficulty === 0) {
+        drawPile = shuffle(drawPile.concat(GreenCards));
+      } else if (selectedDifficulty === 5) {
+        drawPile = shuffle(drawPile.concat(RedCards));
+      } else if (selectedDifficulty === 10) {
+        drawPile = shuffle(drawPile.concat(PurpleCards));
+      }
+    } else {
+      var selectedCards = [];
+
+      if (selectedDifficulty < 5) {   
+        selectedCards = this.selectDifficultyCards(selectedDifficulty, GreenCards.slice(), RedCards.slice());
+      } else if (selectedDifficulty > 5) { 
+        selectedCards = this.selectDifficultyCards(selectedDifficulty % 5, RedCards.slice(), PurpleCards.slice());
+      }
+
+      drawPile = shuffle(drawPile.concat(selectedCards));
+    }
+
+    var tempObjectives = this.selectObjectiveCards(numObjectives);
+
+    this.setState(() => ({
+      selectedDeck: drawPile.slice(),
+      cardsInDeck: drawPile.slice(),
+      cardsInDiscard: [],
+      selectedObjectives: tempObjectives.slice(),
+      difficulty: selectedDifficulty,
+      numberOfObjectives: numObjectives
+    }));
+  }
+
+  selectDifficultyCards(selectedDifficulty, baseCards, extraCards) {
+    var selectedCards = [];
+    var i = 1;
+
+    while (i <= selectedDifficulty) {
+      var randomExtraIndex = Math.floor(Math.random() * extraCards.length);
+
+      var selectedExtra = extraCards.splice(randomExtraIndex, 1);
+      selectedCards.push(selectedExtra[0]);    
+
+      const selectedId = selectedExtra[0].id;
+
+      //Remove pair from base cards
+      baseCards = baseCards.filter(function (e) {
+        return e.id !== selectedId;
+      });
+
+      i++;
+    }
+
+    selectedCards = selectedCards.concat(baseCards);
+    return selectedCards;
+  }
+
+  selectObjectiveCards(numObjectives) {
+    var tempObjectives = shuffle(ObjectiveCards.slice());
+    console.log(tempObjectives);
+
+    tempObjectives.splice(0, 5 - numObjectives);
+    return tempObjectives;
+  }
+
+  handleDrawCard() {
+    var drawPile = [];
+    var newDiscard = [];
+
+    if (this.state.cardsInDeck.length > 0) {
+      drawPile = this.state.cardsInDeck.slice();
+      newDiscard = this.state.cardsInDiscard.slice(); 
+      newDiscard.push(drawPile.splice(drawPile.length - 1, 1)[0]);
+    } else {
+      //New Round
+      drawPile = shuffle(this.state.selectedDeck.slice());
+      newDiscard = [];
+      var tempObjectives = this.selectObjectiveCards(this.state.numberOfObjectives);
+
+      this.setState(() => ({
+        selectedObjectives: tempObjectives
+      }));
+    }
+    
+    this.setState(() => ({
+      cardsInDeck: drawPile,
+      cardsInDiscard: newDiscard
+    }));
+  }
+
+  render() {
+    const selectingDifficulty = this.state.difficulty < 0;
+    let difficultyComponent;
+    let drawComponent;
+    let objectivesComponent;
+
+    if (selectingDifficulty) {
+      difficultyComponent = <DifficultyController onClick={this.onDifficultySelected}/>;
+
+    } else {
+      drawComponent = <DrawPile cards={this.state.cardsInDeck} discard={this.state.cardsInDiscard} name="draw-pile" canDraw ={true} drawIndex={this.state.cardsInDeck.length > 0 ? this.state.cardsInDeck.length-1 : 0} discardIndex={this.state.cardsInDiscard.length > 0 ? this.state.cardsInDiscard.length-1 : 0} onClick={() => this.handleDrawCard()}/>;
+      objectivesComponent = <Objectives cards={this.state.selectedObjectives}/>;
+    }
+
+    return (
+      <div className='cards-container'>
+        {difficultyComponent}
+        {drawComponent}
+        {objectivesComponent}
+      </div>
+    );
+  }
+}
+
 class DifficultyController extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       difficultyText: "5 Green Cards", 
-      difficulty: 0
+      difficulty: 0,
+      numObjectives: 3
     }
   }
 
@@ -274,138 +407,29 @@ class DifficultyController extends React.Component {
           }))}
         />
       </div>
-      <Button variant='contained' color='primary' onClick={() => this.props.onClick(this.state.difficulty)}>Start</Button>
-    </div>
-    );
-  }
-}
-
-class GameController extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = 
-      {
-        selectedDeck: [],
-        cardsInDeck: [],
-        cardsInDiscard: [],
-        selectedObjectives:[],
-        difficulty: -1 //if -1, render difficulty selector else render draw piles
-      };
-
-      this.onDifficultySelected = this.onDifficultySelected.bind(this);
-  }
-
-  onDifficultySelected(selectedDifficulty) {
-    var drawPile = BasicCards.slice();
-
-    if (selectedDifficulty % 5 === 0) {
-      if (selectedDifficulty === 0) {
-        drawPile = shuffle(drawPile.concat(GreenCards));
-      } else if (selectedDifficulty === 5) {
-        drawPile = shuffle(drawPile.concat(RedCards));
-      } else if (selectedDifficulty === 10) {
-        drawPile = shuffle(drawPile.concat(PurpleCards));
-      }
-    } else {
-      var selectedCards = [];
-
-      if (selectedDifficulty < 5) {   
-        selectedCards = this.selectDifficultyCards(selectedDifficulty, GreenCards.slice(), RedCards.slice());
-      } else if (selectedDifficulty > 5) { 
-        selectedCards = this.selectDifficultyCards(selectedDifficulty % 5, RedCards.slice(), PurpleCards.slice());
-      }
-
-      drawPile = shuffle(drawPile.concat(selectedCards));
-    }
-
-    var tempObjectives = this.selectObjectiveCards();
-
-    this.setState(() => ({
-      selectedDeck: drawPile.slice(),
-      cardsInDeck: drawPile.slice(),
-      cardsInDiscard: [],
-      selectedObjectives: tempObjectives.slice(),
-      difficulty: selectedDifficulty
-    }));
-  }
-
-  selectDifficultyCards(selectedDifficulty, baseCards, extraCards) {
-    var selectedCards = [];
-    var i = 1;
-
-    while (i <= selectedDifficulty) {
-      var randomExtraIndex = Math.floor(Math.random() * extraCards.length);
-
-      var selectedExtra = extraCards.splice(randomExtraIndex, 1);
-      selectedCards.push(selectedExtra[0]);    
-
-      const selectedId = selectedExtra[0].id;
-      
-      //Remove pair from base cards
-      baseCards = baseCards.filter(function (e) {
-        return e.id !== selectedId;
-      });
-
-      i++;
-    }
-
-    selectedCards = selectedCards.concat(baseCards);
-    return selectedCards;
-  }
-
-  selectObjectiveCards() {
-    var tempObjectives = shuffle(ObjectiveCards.slice());
-    console.log(tempObjectives);
-
-    tempObjectives.splice(0,2);
-    return tempObjectives;
-  }
-
-  handleDrawCard() {
-    var drawPile = [];
-    var newDiscard = [];
-
-    if (this.state.cardsInDeck.length > 0) {
-      drawPile = this.state.cardsInDeck.slice();
-      newDiscard = this.state.cardsInDiscard.slice(); 
-      newDiscard.push(drawPile.splice(drawPile.length - 1, 1)[0]);
-    } else {
-      //New Round
-      drawPile = shuffle(this.state.selectedDeck.slice());
-      newDiscard = [];
-      var tempObjectives = this.selectObjectiveCards();
-
-      this.setState(() => ({
-        selectedObjectives: tempObjectives
-      }));
-    }
-    
-    this.setState(() => ({
-      cardsInDeck: drawPile,
-      cardsInDiscard: newDiscard
-    }));
-  }
-
-  render() {
-    const selectingDifficulty = this.state.difficulty < 0;
-    let difficultyComponent;
-    let drawComponent;
-    let objectivesComponent;
-
-    if (selectingDifficulty) {
-      difficultyComponent = <DifficultyController onClick={this.onDifficultySelected}/>;
-
-    } else {
-      drawComponent = <DrawPile cards={this.state.cardsInDeck} discard={this.state.cardsInDiscard} name="draw-pile" canDraw ={true} drawIndex={this.state.cardsInDeck.length > 0 ? this.state.cardsInDeck.length-1 : 0} discardIndex={this.state.cardsInDiscard.length > 0 ? this.state.cardsInDiscard.length-1 : 0} onClick={() => this.handleDrawCard()}/>;
-      objectivesComponent = <Objectives cards={this.state.selectedObjectives}/>;
-    }
-
-    return (
-      <div className='cards-container'>
-        {difficultyComponent}
-        {drawComponent}
-        {objectivesComponent}
+      <Typography id="discrete-slider" gutterBottom>
+        Select Number of Objectives
+      </Typography>
+      <div className='slider-container'>
+        <Slider
+          className='slider-component'
+          defaultValue={3}
+          aria-labelledby="discrete-slider"
+          valueLabelDisplay="auto"
+          marks={true}
+          step={1}
+          min={2}
+          max={4}
+          onChange={(e, value) => this.setState(() => ({
+            numObjectives: value
+          }))}
+          onChangeCommitted={(e, value) => this.setState(() => ({
+            numObjectives: value
+          }))}
+        />
       </div>
+      <Button variant='contained' color='primary' onClick={() => this.props.onClick(this.state.difficulty, this.state.numObjectives)}>Start</Button>
+    </div>
     );
   }
 }
@@ -436,7 +460,7 @@ class Objectives extends React.Component {
   render() {
     var objCards = [];
     for (var i = 0; i < this.props.cards.length; i++) {
-      objCards.push(<img className="Objectives" src={this.props.cards[i] ? this.props.cards[i].front : null}/>)
+      objCards.push(<img key={i} className="Objectives" src={this.props.cards[i] ? this.props.cards[i].front : null}/>)
     }
     return (
       <div className='Objectives-Container'>
