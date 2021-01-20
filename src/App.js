@@ -345,21 +345,21 @@ class GameController extends React.Component {
     const selectingDifficulty = this.state.difficulty < 0;
     let difficultyComponent;
     let drawComponent;
-    let discardComponent;
+    let objectivesComponent;
 
     if (selectingDifficulty) {
       difficultyComponent = <DifficultyController onClick={this.onDifficultySelected}/>;
 
     } else {
-      drawComponent = <DrawPile cards={this.state.cardsInDeck} name="draw-pile" canDraw ={true} index={this.state.cardsInDeck.length > 0 ? this.state.cardsInDeck.length-1 : 0} onClick={() => this.handleDrawCard()}/>;
-      discardComponent = <DrawPile cards={this.state.cardsInDiscard} name="discard-pile" canDraw={false} index={this.state.cardsInDiscard.length > 0 ? this.state.cardsInDiscard.length-1 : 0}/>;
+      drawComponent = <DrawPile cards={this.state.cardsInDeck} discard={this.state.cardsInDiscard} name="draw-pile" canDraw ={true} drawIndex={this.state.cardsInDeck.length > 0 ? this.state.cardsInDeck.length-1 : 0} discardIndex={this.state.cardsInDiscard.length > 0 ? this.state.cardsInDiscard.length-1 : 0} onClick={() => this.handleDrawCard()}/>;
+      // objectivesComponent = <DrawPile cards={this.state.cardsInDeck} discard={this.state.cardsInDiscard} name="draw-pile" canDraw ={true} drawIndex={this.state.cardsInDeck.length > 0 ? this.state.cardsInDeck.length-1 : 0} discardIndex={this.state.cardsInDiscard.length > 0 ? this.state.cardsInDiscard.length-1 : 0} onClick={() => this.handleDrawCard()}/>;
     }
 
     return (
       <div className='cards-container'>
         {difficultyComponent}
         {drawComponent}
-        {discardComponent}
+        {objectivesComponent}
       </div>
     );
   }
