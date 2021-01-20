@@ -14,6 +14,18 @@
   float: right;
 }
 
+.Objectives {
+  height: 20%;
+  width: 10%;
+  padding-right: 5px;
+}
+
+.Objectives-Container {
+  align-content: center;
+  align-items: center;
+  display: contents;
+}
+
 .root-container {
   overflow: auto;
   border: 3px solid rgb(168, 14, 14);
