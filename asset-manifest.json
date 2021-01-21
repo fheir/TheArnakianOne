@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/arnak_solo/static/css/main.523c13b9.chunk.css",
+    "main.css": "/arnak_solo/static/css/main.2709acce.chunk.css",
     "main.js": "/arnak_solo/static/js/main.efd6f9e2.chunk.js",
     "main.js.map": "/arnak_solo/static/js/main.efd6f9e2.chunk.js.map",
     "runtime-main.js": "/arnak_solo/static/js/runtime-main.17757db7.js",
@@ -10,7 +10,7 @@
     "static/js/3.143bed83.chunk.js": "/arnak_solo/static/js/3.143bed83.chunk.js",
     "static/js/3.143bed83.chunk.js.map": "/arnak_solo/static/js/3.143bed83.chunk.js.map",
     "index.html": "/arnak_solo/index.html",
-    "static/css/main.523c13b9.chunk.css.map": "/arnak_solo/static/css/main.523c13b9.chunk.css.map",
+    "static/css/main.2709acce.chunk.css.map": "/arnak_solo/static/css/main.2709acce.chunk.css.map",
     "static/js/2.04841093.chunk.js.LICENSE.txt": "/arnak_solo/static/js/2.04841093.chunk.js.LICENSE.txt",
     "static/media/back_left.f9380e33.png": "/arnak_solo/static/media/back_left.f9380e33.png",
     "static/media/back_right.5d7514db.png": "/arnak_solo/static/media/back_right.5d7514db.png",
@@ -44,7 +44,7 @@
   "entrypoints": [
     "static/js/runtime-main.17757db7.js",
     "static/js/2.04841093.chunk.js",
-    "static/css/main.523c13b9.chunk.css",
+    "static/css/main.2709acce.chunk.css",
     "static/js/main.efd6f9e2.chunk.js"
   ]
 }
