@@ -190,7 +190,7 @@ const ObjectiveCards = [
 
 const difficultyCardCount = 5;
 
-const version = 'v0.2';
+const version = 'v0.65';
 function App(props) {
   return (
     <div className='root-container'>
@@ -302,6 +302,16 @@ class GameController extends React.Component {
       drawPile = this.state.cardsInDeck.slice();
       newDiscard = this.state.cardsInDiscard.slice(); 
       newDiscard.push(drawPile.splice(drawPile.length - 1, 1)[0]);
+
+      //TODO tiebreaker for last card drawn
+      // if (drawPile.length === 0) {
+      //   drawPile.push(newDiscard[0]);
+      // }
+
+      this.setState(() => ({
+        cardsInDeck: drawPile,
+        cardsInDiscard: newDiscard
+      }));
     } else {
       //New Round
       drawPile = shuffle(this.state.selectedDeck.slice());
@@ -309,14 +319,11 @@ class GameController extends React.Component {
       var tempObjectives = this.selectObjectiveCards(this.state.numberOfObjectives);
 
       this.setState(() => ({
-        selectedObjectives: tempObjectives
+        selectedObjectives: tempObjectives,
+        cardsInDeck: drawPile,
+        cardsInDiscard: newDiscard
       }));
     }
-    
-    this.setState(() => ({
-      cardsInDeck: drawPile,
-      cardsInDiscard: newDiscard
-    }));
   }
 
   render() {
