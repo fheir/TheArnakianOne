@@ -35,8 +35,10 @@ import objectiveBack from './images/objective_back.png';
 import './App.css';
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 import Button from '@material-ui/core/Button';
+import 'fontsource-roboto';
 
 const BasicCards = [
   {
@@ -190,11 +192,11 @@ const ObjectiveCards = [
 
 const difficultyCardCount = 5;
 
-const version = 'v0.65';
+const version = 'v0.66';
 function App(props) {
   return (
     <div className='root-container'>
-      <h1>Lost Ruins of Arnak - {version}</h1>
+      <Typography align='center' variant='h3'>Lost Ruins of Arnak - {version}</Typography>
       <GameController />
     </div> 
   );
@@ -288,7 +290,6 @@ class GameController extends React.Component {
 
   selectObjectiveCards(numObjectives) {
     var tempObjectives = shuffle(ObjectiveCards.slice());
-    console.log(tempObjectives);
 
     tempObjectives.splice(0, 5 - numObjectives);
     return tempObjectives;
@@ -302,11 +303,6 @@ class GameController extends React.Component {
       drawPile = this.state.cardsInDeck.slice();
       newDiscard = this.state.cardsInDiscard.slice(); 
       newDiscard.push(drawPile.splice(drawPile.length - 1, 1)[0]);
-
-      //TODO tiebreaker for last card drawn
-      // if (drawPile.length === 0) {
-      //   drawPile.push(newDiscard[0]);
-      // }
 
       this.setState(() => ({
         cardsInDeck: drawPile,
@@ -350,6 +346,14 @@ class GameController extends React.Component {
   }
 }
 
+const theme = createMuiTheme({
+  typography: {
+    subtitle1: {
+      fontSize:20
+    }
+  },
+});
+
 class DifficultyController extends React.Component {
   constructor(props) {
     super(props);
@@ -390,11 +394,14 @@ class DifficultyController extends React.Component {
       <Typography id="discrete-slider" gutterBottom>
         Select Difficulty
       </Typography>
+      <ThemeProvider theme={theme}>
+      <Typography variant='subtitle1' align='center' className="difficulty-text">
+          {this.state.difficultyText}
+      </Typography>
+      </ThemeProvider>
 
       <div className='slider-container'>
-        <Typography className="difficulty-text">
-          {this.state.difficultyText}
-        </Typography>
+        
         <Slider
           className='slider-component'
           defaultValue={0}
@@ -417,9 +424,9 @@ class DifficultyController extends React.Component {
       <Typography id="discrete-slider" gutterBottom>
         Select Number of Objectives
       </Typography>
-      <div className='slider-container'>
+      <div className='objectives-slider-container'>
         <Slider
-          className='slider-component'
+          className='objectives-slider-container'
           defaultValue={3}
           aria-labelledby="discrete-slider"
           valueLabelDisplay="auto"
@@ -447,12 +454,35 @@ class DrawPile extends React.Component {
   }
 
   render() {
+    let drawPile;
+    let discardPile;
+    let tiebreaker;
+
+    let deckDescription;
+
+    let drawPileEmpty = this.props.cards.length <= 0;
+
+    if (this.props.cards[this.props.drawIndex]) {
+      drawPile = <img className="Draw" src={this.props.cards[this.props.drawIndex].back}/>
+      deckDescription = "Cards Left: " + this.props.cards.length;
+    }
+
+    if (this.props.discard[this.props.discardIndex]) {
+
+      if (drawPileEmpty) {
+        tiebreaker = <img className="Tiebreaker" src={this.props.discard[0].back}/>
+        deckDescription = "Deck empty: Tiebreaker shown";
+      }
+
+      discardPile = <img className="Discard" src={this.props.discard[this.props.discardIndex].front}/>
+    }
+
     return (
       <div className={this.props.name}>
-      {console.log(this.props.cards[this.props.drawIndex])}
-        <img className="Draw" src={this.props.cards[this.props.drawIndex] ? this.props.cards[this.props.drawIndex].back : null}/>
-        <img className="Discard" src={this.props.discard[this.props.discardIndex] ? this.props.discard[this.props.discardIndex].front : null}/>
-        <h1>{this.props.cards.length}</h1>
+        {drawPile}
+        {tiebreaker}
+        {discardPile}
+        <Typography variant='h5'>{deckDescription}</Typography>
         {this.props.canDraw ? <Button variant='contained' color="primary" onClick={() => this.props.onClick()}>{this.props.cards.length > 0 ? 'Draw' : 'Next Round'}</Button> : null}
       </div>
     );
