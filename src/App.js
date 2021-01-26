@@ -38,6 +38,9 @@ import Typography from '@material-ui/core/Typography';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+
 import 'fontsource-roboto';
 
 const BasicCards = [
@@ -275,7 +278,7 @@ class GameController extends React.Component {
     }
   }
 
-  onDifficultySelected(selectedDifficulty, numObjectives) {
+  onDifficultySelected(selectedDifficulty, numObjectives, objectivesOn) {
     var drawPile = BasicCards.slice();
 
     if (selectedDifficulty % 5 === 0) {
@@ -298,7 +301,10 @@ class GameController extends React.Component {
       drawPile = shuffle(drawPile.concat(selectedCards));
     }
 
-    var tempObjectives = this.selectObjectiveCards(numObjectives);
+    if (!objectivesOn) {
+      numObjectives = 0;
+    }
+    var tempObjectives = objectivesOn ? this.selectObjectiveCards(numObjectives) : [];
 
     this.setState(() => ({
       selectedDeck: drawPile.slice(),
@@ -374,7 +380,9 @@ class GameController extends React.Component {
     let drawComponent;
     let objectivesComponent;
 
-    let drawOrientationName = 'draw-pile-' + this.state.deviceOrientation;
+    let selectedObjNameAddition = this.state.numberOfObjectives > 0 ? '' : '-noobj';
+  
+    let drawOrientationName = 'draw-pile-' + this.state.deviceOrientation + selectedObjNameAddition;
 
 
     if (selectingDifficulty) {
@@ -412,8 +420,11 @@ class DifficultyController extends React.Component {
     this.state = {
       difficultyText: "5 Green Cards", 
       difficulty: 0,
-      numObjectives: 3
+      numObjectives: 3,
+      objectivesOn: true
     }
+
+    this.toggleObjectives = this.toggleObjectives.bind(this);
   }
 
   friendlyDifficultyString() {
@@ -439,6 +450,15 @@ class DifficultyController extends React.Component {
     return friendlyString;
   }
 
+  toggleObjectives() {
+    let toggleState = !this.state.objectivesOn;
+
+    console.log('toggle');
+    this.setState(() => ({
+      objectivesOn: toggleState
+    }));
+  }
+
   render() {
     return (
     <div className='difficulty-container'>
@@ -450,9 +470,7 @@ class DifficultyController extends React.Component {
           {this.state.difficultyText}
       </Typography>
       </ThemeProvider>
-
       <div className='slider-container'>
-        
         <Slider
           className='slider-component'
           defaultValue={0}
@@ -472,9 +490,10 @@ class DifficultyController extends React.Component {
           }))}
         />
       </div>
-      <Typography id="discrete-slider" gutterBottom>
-        Select Number of Objectives
-      </Typography>
+      <FormControlLabel
+        control={<Checkbox checked={this.state.objectivesOn} onChange={this.toggleObjectives} color='primary' />}
+        label="Select Number of Objectives"
+      />
       <div className='objectives-slider-container'>
         <Slider
           className='objectives-slider-container'
@@ -485,6 +504,7 @@ class DifficultyController extends React.Component {
           step={1}
           min={2}
           max={4}
+          disabled={!this.state.objectivesOn}
           onChange={(e, value) => this.setState(() => ({
             numObjectives: value
           }))}
@@ -493,7 +513,7 @@ class DifficultyController extends React.Component {
           }))}
         />
       </div>
-      <Button variant='contained' color='primary' onClick={() => this.props.onClick(this.state.difficulty, this.state.numObjectives)}>Start</Button>
+      <Button variant='contained' color='primary' onClick={() => this.props.onClick(this.state.difficulty, this.state.numObjectives, this.state.objectivesOn)}>Start</Button>
     </div>
     );
   }
@@ -538,7 +558,7 @@ class DrawPile extends React.Component {
         {drawPile}
         {tiebreaker}
         {discardPile}
-        <div className="blah">
+        <div>
         <Typography variant='h5'>{deckDescription}</Typography>
         {this.props.canDraw ? <Button variant='contained' color="primary" onClick={() => this.props.onClick()}>{this.props.cards.length > 0 ? 'Draw' : 'Next Round'}</Button> : null}
         </div>
@@ -551,7 +571,6 @@ class Objectives extends React.Component {
   constructor(props) {
     super(props);
   }
-
 
   render() {
     let containerClassName = 'Objectives-Container-' + this.props.orientation;
