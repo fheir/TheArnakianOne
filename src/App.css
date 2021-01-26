@@ -2,48 +2,93 @@
   text-align: center;
 }
 
-.Draw {
+.Draw-landscape {
   width: 30%;
 }
 
-.Discard {
+.Discard-landscape {
   width: 30%;
   float: right;
 }
 
-.Tiebreaker {
+.Draw-portrait {
   width: 30%;
 }
 
-.Objectives {
+.Discard-portrait {
+  width: 30%;
+  float: right;
+}
+
+.Tiebreaker-landscape {
+  width: 30%;
+}
+
+.Tiebreaker-portrait {
+  width: 30%;
+}
+
+.blah {
+  border: 3px solid rgb(165, 168, 14);
+
+}
+
+.Objectives-landscape {
   height: 20%;
   width: 30%;
   padding-right: 5px;
 }
 
-.Objectives-Container {
+
+.Objectives-portrait {
+  height: 20%;
+  width: 30%;
+  padding-right: 5px;
+  padding-bottom: 5px
+}
+
+.Objectives-Container-landscape{
   width:48%;
-  float:right;
+  float:left;
   margin-right: 5px;
+}
+
+.Objectives-Container-portrait{
+  margin: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  /* align-items: center; */
 }
 
 .root-container {
   overflow: auto;
 }
 
-.cards-container {
+.cards-container-landscape {
 
 }
 
-.draw-pile {
-  float: left;
+.cards-container-portrait {
+
+}
+
+.draw-pile-landscape {
+  float: right;
   width: 48%;
   margin-left: 5px;
+}
+
+.draw-pile-portrait {
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .discard-pile {
   float: right;
   width: 50%;
+    border: 3px solid rgb(165, 168, 14);
+
 }
 
 .float-container {

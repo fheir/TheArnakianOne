@@ -201,7 +201,7 @@ class App extends React.Component {
   render() {
     return (
       <div className='root-container'>
-        <Typography align='center' variant='h3'>Lost Ruins of Arnak - {version}</Typography>
+        <Typography align='center' variant='h5'>Lost Ruins of Arnak Solo Helper</Typography>
         <GameController />
       </div> 
     );
@@ -218,6 +218,8 @@ function shuffle(a) {
   }
   return a;
 }
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 
 class GameController extends React.Component {
   constructor(props) {
@@ -229,10 +231,48 @@ class GameController extends React.Component {
         cardsInDiscard: [],
         numberOfObjectives:3,
         selectedObjectives:[],
-        difficulty: -1 //if -1, render difficulty selector else render draw piles
+        difficulty: -1, //if -1, render difficulty selector else render draw piles
+        deviceOrientation: 'portrait'
       };
 
+    this.changedOrientation = this.changedOrientation.bind(this);
     this.onDifficultySelected = this.onDifficultySelected.bind(this);
+  }
+
+  changedOrientation() {
+    var orientation = 'portrait';
+      var type = 'primary';
+      var angle = 0;
+    if (window.orientation) {
+      angle = window.orientation;
+      orientation = Math.abs(angle) === 90 ? 'landscape' : 'portrait';
+    }
+
+    if (window.screen.orientation) {
+      var _window$screen$orient = window.screen.orientation.type.split('-');
+
+      var _window$screen$orient2 = _slicedToArray(_window$screen$orient, 2);
+
+      orientation = _window$screen$orient2[0];
+
+    }
+
+    console.log(orientation);
+    this.setState(() => ({
+      deviceOrientation: orientation
+    }));
+  }
+
+  componentDidMount() {
+    if (window.screen.orientation && 'onchange' in window.screen.orientation) {
+      window.screen.orientation.addEventListener('change', this.changedOrientation);
+      this.changedOrientation();
+    } else if ('onorientationchange' in window) {
+      window.addEventListener('orientationchange', this.changedOrientation);
+      this.changedOrientation();
+    } else {
+      console.warn('No orientationchange events');
+    }
   }
 
   onDifficultySelected(selectedDifficulty, numObjectives) {
@@ -334,19 +374,24 @@ class GameController extends React.Component {
     let drawComponent;
     let objectivesComponent;
 
+    let drawOrientationName = 'draw-pile-' + this.state.deviceOrientation;
+
+
     if (selectingDifficulty) {
-      difficultyComponent = <DifficultyController onClick={this.onDifficultySelected}/>;
+      difficultyComponent = <DifficultyController orientation={this.state.deviceOrientation} onClick={this.onDifficultySelected}/>;
 
     } else {
-      drawComponent = <DrawPile cards={this.state.cardsInDeck} discard={this.state.cardsInDiscard} name="draw-pile" canDraw ={true} drawIndex={this.state.cardsInDeck.length > 0 ? this.state.cardsInDeck.length-1 : 0} discardIndex={this.state.cardsInDiscard.length > 0 ? this.state.cardsInDiscard.length-1 : 0} onClick={() => this.handleDrawCard()}/>;
-      objectivesComponent = <Objectives cards={this.state.selectedObjectives}/>;
+      drawComponent = <DrawPile orientation={this.state.deviceOrientation} cards={this.state.cardsInDeck} discard={this.state.cardsInDiscard} name={drawOrientationName} canDraw ={true} drawIndex={this.state.cardsInDeck.length > 0 ? this.state.cardsInDeck.length-1 : 0} discardIndex={this.state.cardsInDiscard.length > 0 ? this.state.cardsInDiscard.length-1 : 0} onClick={() => this.handleDrawCard()}/>;
+      objectivesComponent = <Objectives orientation={this.state.deviceOrientation} cards={this.state.selectedObjectives}/>;
     }
 
+    let orientationName = 'cards-container-' + this.state.deviceOrientation;
+
     return (
-      <div className='cards-container'>
+      <div className={orientationName}>
         {difficultyComponent}
-        {drawComponent}
         {objectivesComponent}
+        {drawComponent}
       </div>
     );
   }
@@ -468,19 +513,24 @@ class DrawPile extends React.Component {
 
     let drawPileEmpty = this.props.cards.length <= 0;
 
+    let drawClassName = "Draw-"  + this.props.orientation;
+    let discardClassName = "Discard-"  + this.props.orientation;
+    let tieClassName = "Tiebreaker-"  + this.props.orientation;
+
+
     if (this.props.cards[this.props.drawIndex]) {
-      drawPile = <img className="Draw" src={this.props.cards[this.props.drawIndex].back}/>
+      drawPile = <img className={drawClassName} src={this.props.cards[this.props.drawIndex].back}/>
       deckDescription = "Cards Left: " + this.props.cards.length;
     }
 
     if (this.props.discard[this.props.discardIndex]) {
 
       if (drawPileEmpty) {
-        tiebreaker = <img className="Tiebreaker" src={this.props.discard[0].back}/>
+        tiebreaker = <img className={tieClassName} src={this.props.discard[0].back}/>
         deckDescription = "Deck empty: Tiebreaker shown";
       }
 
-      discardPile = <img className="Discard" src={this.props.discard[this.props.discardIndex].front}/>
+      discardPile = <img className={discardClassName} src={this.props.discard[this.props.discardIndex].front}/>
     }
 
     return (
@@ -488,8 +538,10 @@ class DrawPile extends React.Component {
         {drawPile}
         {tiebreaker}
         {discardPile}
+        <div className="blah">
         <Typography variant='h5'>{deckDescription}</Typography>
         {this.props.canDraw ? <Button variant='contained' color="primary" onClick={() => this.props.onClick()}>{this.props.cards.length > 0 ? 'Draw' : 'Next Round'}</Button> : null}
+        </div>
       </div>
     );
   }
@@ -500,13 +552,16 @@ class Objectives extends React.Component {
     super(props);
   }
 
+
   render() {
+    let containerClassName = 'Objectives-Container-' + this.props.orientation;
+    let objectivesImageClassName = 'Objectives-' + this.props.orientation;
     var objCards = [];
     for (var i = 0; i < this.props.cards.length; i++) {
-      objCards.push(<img key={i} className="Objectives" src={this.props.cards[i] ? this.props.cards[i].front : null}/>)
+      objCards.push(<img key={i} className={objectivesImageClassName} src={this.props.cards[i] ? this.props.cards[i].front : null}/>)
     }
     return (
-      <div className='Objectives-Container'>
+      <div className={containerClassName}>
         {objCards}
       </div>
     );
