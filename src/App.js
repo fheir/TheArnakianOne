@@ -192,14 +192,20 @@ const ObjectiveCards = [
 
 const difficultyCardCount = 5;
 
-const version = 'v0.66';
-function App(props) {
-  return (
-    <div className='root-container'>
-      <Typography align='center' variant='h3'>Lost Ruins of Arnak - {version}</Typography>
-      <GameController />
-    </div> 
-  );
+const version = 'v0.67';
+class App extends React.Component {
+  componentDidMount() {
+    document.title = "Arnak Solo";
+  }
+
+  render() {
+    return (
+      <div className='root-container'>
+        <Typography align='center' variant='h3'>Lost Ruins of Arnak - {version}</Typography>
+        <GameController />
+      </div> 
+    );
+  }
 }
 
 function shuffle(a) {
@@ -226,7 +232,7 @@ class GameController extends React.Component {
         difficulty: -1 //if -1, render difficulty selector else render draw piles
       };
 
-      this.onDifficultySelected = this.onDifficultySelected.bind(this);
+    this.onDifficultySelected = this.onDifficultySelected.bind(this);
   }
 
   onDifficultySelected(selectedDifficulty, numObjectives) {
