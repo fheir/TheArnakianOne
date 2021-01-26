@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/arnak_solo/static/css/main.0e0f6a98.chunk.css",
-    "main.js": "/arnak_solo/static/js/main.7958fd0e.chunk.js",
-    "main.js.map": "/arnak_solo/static/js/main.7958fd0e.chunk.js.map",
-    "runtime-main.js": "/arnak_solo/static/js/runtime-main.296ebdfb.js",
-    "runtime-main.js.map": "/arnak_solo/static/js/runtime-main.296ebdfb.js.map",
+    "main.js": "/arnak_solo/static/js/main.73fb5c0f.chunk.js",
+    "main.js.map": "/arnak_solo/static/js/main.73fb5c0f.chunk.js.map",
+    "runtime-main.js": "/arnak_solo/static/js/runtime-main.4ea445bd.js",
+    "runtime-main.js.map": "/arnak_solo/static/js/runtime-main.4ea445bd.js.map",
     "static/css/2.870ed56e.chunk.css": "/arnak_solo/static/css/2.870ed56e.chunk.css",
-    "static/js/2.3e962278.chunk.js": "/arnak_solo/static/js/2.3e962278.chunk.js",
-    "static/js/2.3e962278.chunk.js.map": "/arnak_solo/static/js/2.3e962278.chunk.js.map",
-    "static/js/3.e1069db2.chunk.js": "/arnak_solo/static/js/3.e1069db2.chunk.js",
-    "static/js/3.e1069db2.chunk.js.map": "/arnak_solo/static/js/3.e1069db2.chunk.js.map",
+    "static/js/2.9910e014.chunk.js": "/arnak_solo/static/js/2.9910e014.chunk.js",
+    "static/js/2.9910e014.chunk.js.map": "/arnak_solo/static/js/2.9910e014.chunk.js.map",
+    "static/js/3.f08640cf.chunk.js": "/arnak_solo/static/js/3.f08640cf.chunk.js",
+    "static/js/3.f08640cf.chunk.js.map": "/arnak_solo/static/js/3.f08640cf.chunk.js.map",
     "index.html": "/arnak_solo/index.html",
     "static/css/2.870ed56e.chunk.css.map": "/arnak_solo/static/css/2.870ed56e.chunk.css.map",
     "static/css/main.0e0f6a98.chunk.css.map": "/arnak_solo/static/css/main.0e0f6a98.chunk.css.map",
-    "static/js/2.3e962278.chunk.js.LICENSE.txt": "/arnak_solo/static/js/2.3e962278.chunk.js.LICENSE.txt",
+    "static/js/2.9910e014.chunk.js.LICENSE.txt": "/arnak_solo/static/js/2.9910e014.chunk.js.LICENSE.txt",
     "static/media/back_left.f9380e33.png": "/arnak_solo/static/media/back_left.f9380e33.png",
     "static/media/back_right.5d7514db.png": "/arnak_solo/static/media/back_right.5d7514db.png",
     "static/media/basic_front_1.2fee07ec.png": "/arnak_solo/static/media/basic_front_1.2fee07ec.png",
@@ -45,10 +45,10 @@
     "static/media/index.css": "/arnak_solo/static/media/roboto-vietnamese-400-normal.52cebac0.woff2"
   },
   "entrypoints": [
-    "static/js/runtime-main.296ebdfb.js",
+    "static/js/runtime-main.4ea445bd.js",
     "static/css/2.870ed56e.chunk.css",
-    "static/js/2.3e962278.chunk.js",
+    "static/js/2.9910e014.chunk.js",
     "static/css/main.0e0f6a98.chunk.css",
-    "static/js/main.7958fd0e.chunk.js"
+    "static/js/main.73fb5c0f.chunk.js"
   ]
 }
