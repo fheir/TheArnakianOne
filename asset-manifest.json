@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/arnak_solo/static/css/main.4bf5233f.chunk.css",
-    "main.js": "/arnak_solo/static/js/main.9ca7ab10.chunk.js",
-    "main.js.map": "/arnak_solo/static/js/main.9ca7ab10.chunk.js.map",
+    "main.css": "/arnak_solo/static/css/main.1e434393.chunk.css",
+    "main.js": "/arnak_solo/static/js/main.06d53a05.chunk.js",
+    "main.js.map": "/arnak_solo/static/js/main.06d53a05.chunk.js.map",
     "runtime-main.js": "/arnak_solo/static/js/runtime-main.1667a20c.js",
     "runtime-main.js.map": "/arnak_solo/static/js/runtime-main.1667a20c.js.map",
     "static/css/2.870ed56e.chunk.css": "/arnak_solo/static/css/2.870ed56e.chunk.css",
-    "static/js/2.7c927fde.chunk.js": "/arnak_solo/static/js/2.7c927fde.chunk.js",
-    "static/js/2.7c927fde.chunk.js.map": "/arnak_solo/static/js/2.7c927fde.chunk.js.map",
+    "static/js/2.0d9921fb.chunk.js": "/arnak_solo/static/js/2.0d9921fb.chunk.js",
+    "static/js/2.0d9921fb.chunk.js.map": "/arnak_solo/static/js/2.0d9921fb.chunk.js.map",
     "static/js/3.f835ca56.chunk.js": "/arnak_solo/static/js/3.f835ca56.chunk.js",
     "static/js/3.f835ca56.chunk.js.map": "/arnak_solo/static/js/3.f835ca56.chunk.js.map",
     "index.html": "/arnak_solo/index.html",
     "static/css/2.870ed56e.chunk.css.map": "/arnak_solo/static/css/2.870ed56e.chunk.css.map",
-    "static/css/main.4bf5233f.chunk.css.map": "/arnak_solo/static/css/main.4bf5233f.chunk.css.map",
-    "static/js/2.7c927fde.chunk.js.LICENSE.txt": "/arnak_solo/static/js/2.7c927fde.chunk.js.LICENSE.txt",
+    "static/css/main.1e434393.chunk.css.map": "/arnak_solo/static/css/main.1e434393.chunk.css.map",
+    "static/js/2.0d9921fb.chunk.js.LICENSE.txt": "/arnak_solo/static/js/2.0d9921fb.chunk.js.LICENSE.txt",
     "static/media/back_left.f9380e33.png": "/arnak_solo/static/media/back_left.f9380e33.png",
     "static/media/back_right.5d7514db.png": "/arnak_solo/static/media/back_right.5d7514db.png",
     "static/media/basic_front_1.2fee07ec.png": "/arnak_solo/static/media/basic_front_1.2fee07ec.png",
@@ -47,8 +47,8 @@
   "entrypoints": [
     "static/js/runtime-main.1667a20c.js",
     "static/css/2.870ed56e.chunk.css",
-    "static/js/2.7c927fde.chunk.js",
-    "static/css/main.4bf5233f.chunk.css",
-    "static/js/main.9ca7ab10.chunk.js"
+    "static/js/2.0d9921fb.chunk.js",
+    "static/css/main.1e434393.chunk.css",
+    "static/js/main.06d53a05.chunk.js"
   ]
 }
