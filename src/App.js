@@ -41,6 +41,8 @@ import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
+import MetaTags from 'react-meta-tags';
+
 import 'fontsource-roboto';
 
 const BasicCards = [
@@ -222,7 +224,6 @@ function shuffle(a) {
   return a;
 }
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
 
 class GameController extends React.Component {
   constructor(props) {
@@ -575,16 +576,38 @@ class Objectives extends React.Component {
   render() {
     let containerClassName = 'Objectives-Container-' + this.props.orientation;
     let objectivesImageClassName = 'Objectives-' + this.props.orientation;
+
     var objCards = [];
     for (var i = 0; i < this.props.cards.length; i++) {
-      objCards.push(<img key={i} className={objectivesImageClassName} src={this.props.cards[i] ? this.props.cards[i].front : null}/>)
+      objCards.push(<ObjectiveCard key={i} orientation={this.props.orientation} card={this.props.cards[i] ? this.props.cards[i].front : null}/>)
     }
+
+    let customStyle = null;//{width:'135px'};
     return (
-      <div className={containerClassName}>
+      <div className={containerClassName} style={customStyle}>
         {objCards}
       </div>
     );
   }
+}
+
+class ObjectiveCard extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    let objectivesImageClassName = 'Objectives-' + this.props.orientation;
+    let divName = 'ObjectiveCardHolder-' + this.props.orientation;
+
+    return (
+      <div className={divName}>
+        <img key={this.props.key} className={objectivesImageClassName} src={this.props.card}/>
+        <h5>hello</h5>
+      </div>
+    );
+  }
+  
 }
 
 export default App;
