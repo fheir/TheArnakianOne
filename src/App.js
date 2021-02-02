@@ -239,11 +239,13 @@ class GameController extends React.Component {
         numberOfObjectives:3,
         selectedObjectives:[],
         difficulty: -1, //if -1, render difficulty selector else render draw piles
-        deviceOrientation: 'portrait'
+        deviceOrientation: 'portrait',
+        hasRedrawn: false
       };
 
     this.changedOrientation = this.changedOrientation.bind(this);
     this.onDifficultySelected = this.onDifficultySelected.bind(this);
+    this.onRedrawSelected = this.onRedrawSelected.bind(this);
   }
 
   changedOrientation() {
@@ -351,6 +353,26 @@ class GameController extends React.Component {
     return tempObjectives;
   }
 
+  onRedrawSelected(cardIndex) {
+    var currentObjectivesId = this.state.selectedObjectives.map(function(element) {
+      return element.id;
+    });
+
+    var unselected = ObjectiveCards.filter(function(element) {
+      return !currentObjectivesId.includes(element.id);
+    });
+
+    var randomIndex = Math.floor(Math.random() * unselected.length);
+
+    var newSelectedObjectives = this.state.selectedObjectives.slice();
+    newSelectedObjectives[cardIndex] = unselected[randomIndex];
+
+    this.setState(() => ({
+      selectedObjectives: newSelectedObjectives,
+      hasRedrawn: true
+    }));
+  }
+
   handleDrawCard() {
     var drawPile = [];
     var newDiscard = [];
@@ -373,7 +395,7 @@ class GameController extends React.Component {
       this.setState(() => ({
         selectedObjectives: tempObjectives,
         cardsInDeck: drawPile,
-        cardsInDiscard: newDiscard
+        cardsInDiscard: newDiscard,
       }));
     }
   }
@@ -394,7 +416,7 @@ class GameController extends React.Component {
 
     } else {
       drawComponent = <DrawPile orientation={this.state.deviceOrientation} cards={this.state.cardsInDeck} discard={this.state.cardsInDiscard} name={drawOrientationName} canDraw ={true} drawIndex={this.state.cardsInDeck.length > 0 ? this.state.cardsInDeck.length-1 : 0} discardIndex={this.state.cardsInDiscard.length > 0 ? this.state.cardsInDiscard.length-1 : 0} onClick={() => this.handleDrawCard()}/>;
-      objectivesComponent = <Objectives orientation={this.state.deviceOrientation} cards={this.state.selectedObjectives}/>;
+      objectivesComponent = <Objectives playerHasRedrawn={this.state.hasRedrawn} cardsDrawnByRival={this.state.cardsInDiscard.length} orientation={this.state.deviceOrientation} cards={this.state.selectedObjectives} onRedrawObjective={this.onRedrawSelected}/>;
     }
 
     let orientationName = 'cards-container-' + this.state.deviceOrientation;
@@ -582,12 +604,11 @@ class Objectives extends React.Component {
 
     var objCards = [];
     for (var i = 0; i < this.props.cards.length; i++) {
-      objCards.push(<ObjectiveCard isFirst={i === 0} cardKey={i} orientation={this.props.orientation} card={this.props.cards[i] ? this.props.cards[i].front : null}/>)
+      objCards.push(<ObjectiveCard key={i} playerHasRedrawn={this.props.playerHasRedrawn} cardsDrawnByRival={this.props.cardsDrawnByRival} redrawHandler={this.props.onRedrawObjective} isFirst={i === 0} cardKey={i} orientation={this.props.orientation} card={this.props.cards[i] ? this.props.cards[i].front : null}/>)
     }
 
-    let customStyle = null;//{width:'135px'};
     return (
-      <div className={containerClassName} style={customStyle}>
+      <div className={containerClassName}>
         {objCards}
       </div>
     );
@@ -618,22 +639,32 @@ class ObjectiveCard extends React.Component {
       objectiveStatus: newStatus
     }));
   }
+
   render() {
+    console.log(this.props.cardKey);
     var objectivesImageClassName = 'Objectives-' + this.props.orientation;
     let baseDivClass = 'ObjectiveCardHolder-' + this.props.orientation;
     let divName = this.props.isFirst ? baseDivClass + '-first' : baseDivClass;
 
     let claimedStyle = this.state.objectiveStatus == 0 ? null : {'opacity': '0.4'};
 
+    var radioGroup = null;
+    
+    if (!this.props.playerHasRedrawn && this.props.cardsDrawnByRival === 1) {
+       radioGroup = <Button variant='contained' color="primary" onClick={() => this.props.redrawHandler(this.props.cardKey)}>Redraw</Button>
+    } else if (this.props.cardsDrawnByRival >= 1){
+      radioGroup = <FormControl component="fieldset">
+        <RadioGroup value={this.state.objectiveStatus} onChange={this.handleRadioChange}>
+          <FormControlLabel key='1' value='1' control={<Radio color="primary" />} label="Rival" />
+          <FormControlLabel key='2' value='2' control={<Radio color="primary" />} label="Player"/>
+        </RadioGroup>
+      </FormControl>;
+    }
+    
     return (
       <div className={divName}>
         <img key={this.props.cardKey} style={claimedStyle} className={objectivesImageClassName} src={this.props.card}/>
-        <FormControl component="fieldset">
-          <RadioGroup value={this.state.objectiveStatus} onChange={this.handleRadioChange}>
-            <FormControlLabel key='1' value='1' control={<Radio color="primary" />} label="Rival" />
-            <FormControlLabel key='2' value='2' control={<Radio color="primary" />} label="Player"/>
-          </RadioGroup>
-        </FormControl>
+        {radioGroup}
       </div>
     );
   }
