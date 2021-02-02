@@ -58,8 +58,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width:25%;
+  width:24%;
   margin-right: 5px;
+}
+
+.ObjectiveCardHolder-portrait-first {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width:24%;
+  margin-right: 5px;
+  margin-left: 5px;
 }
 
 .ObjectiveCardHolder-landscape {

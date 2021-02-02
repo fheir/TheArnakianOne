@@ -40,6 +40,9 @@ import Slider from '@material-ui/core/Slider';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControl from '@material-ui/core/FormControl';
 
 import MetaTags from 'react-meta-tags';
 
@@ -579,7 +582,7 @@ class Objectives extends React.Component {
 
     var objCards = [];
     for (var i = 0; i < this.props.cards.length; i++) {
-      objCards.push(<ObjectiveCard key={i} orientation={this.props.orientation} card={this.props.cards[i] ? this.props.cards[i].front : null}/>)
+      objCards.push(<ObjectiveCard isFirst={i === 0} cardKey={i} orientation={this.props.orientation} card={this.props.cards[i] ? this.props.cards[i].front : null}/>)
     }
 
     let customStyle = null;//{width:'135px'};
@@ -591,23 +594,49 @@ class Objectives extends React.Component {
   }
 }
 
+ 
+const ObjectiveStatusEnum = Object.freeze({"Incomplete":0, "Rival":1, "Player":2});
+
 class ObjectiveCard extends React.Component {
   constructor(props) {
     super(props);
-  }
 
+    this.state = {
+      objectiveStatus: ObjectiveStatusEnum.Incomplete
+    }
+
+    this.handleRadioChange = this.handleRadioChange.bind(this);
+  }  
+  
+  
+  handleRadioChange(event) {
+    console.log(this.state.objectiveStatus);
+    let newStatus = event.target.value;
+    console.log(newStatus);
+    
+    this.setState(() => ({
+      objectiveStatus: newStatus
+    }));
+  }
   render() {
-    let objectivesImageClassName = 'Objectives-' + this.props.orientation;
-    let divName = 'ObjectiveCardHolder-' + this.props.orientation;
+    var objectivesImageClassName = 'Objectives-' + this.props.orientation;
+    let baseDivClass = 'ObjectiveCardHolder-' + this.props.orientation;
+    let divName = this.props.isFirst ? baseDivClass + '-first' : baseDivClass;
+
+    let claimedStyle = this.state.objectiveStatus == 0 ? null : {'opacity': '0.4'};
 
     return (
       <div className={divName}>
-        <img key={this.props.key} className={objectivesImageClassName} src={this.props.card}/>
-        <h5>hello</h5>
+        <img key={this.props.cardKey} style={claimedStyle} className={objectivesImageClassName} src={this.props.card}/>
+        <FormControl component="fieldset">
+          <RadioGroup value={this.state.objectiveStatus} onChange={this.handleRadioChange}>
+            <FormControlLabel key='1' value='1' control={<Radio color="primary" />} label="Rival" />
+            <FormControlLabel key='2' value='2' control={<Radio color="primary" />} label="Player"/>
+          </RadioGroup>
+        </FormControl>
       </div>
     );
   }
-  
 }
 
 export default App;
