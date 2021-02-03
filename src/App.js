@@ -240,7 +240,8 @@ class GameController extends React.Component {
         selectedObjectives:[],
         difficulty: -1, //if -1, render difficulty selector else render draw piles
         deviceOrientation: 'portrait',
-        hasRedrawn: false
+        hasRedrawn: false,
+        roundNumber: 1
       };
 
     this.changedOrientation = this.changedOrientation.bind(this);
@@ -391,11 +392,14 @@ class GameController extends React.Component {
       drawPile = shuffle(this.state.selectedDeck.slice());
       newDiscard = [];
       var tempObjectives = this.selectObjectiveCards(this.state.numberOfObjectives);
+      let newRoundNumber = this.state.roundNumber + 1;
 
       this.setState(() => ({
         selectedObjectives: tempObjectives,
         cardsInDeck: drawPile,
         cardsInDiscard: newDiscard,
+        hasRedrawn: false,
+        roundNumber: newRoundNumber
       }));
     }
   }
@@ -416,7 +420,7 @@ class GameController extends React.Component {
 
     } else {
       drawComponent = <DrawPile orientation={this.state.deviceOrientation} cards={this.state.cardsInDeck} discard={this.state.cardsInDiscard} name={drawOrientationName} canDraw ={true} drawIndex={this.state.cardsInDeck.length > 0 ? this.state.cardsInDeck.length-1 : 0} discardIndex={this.state.cardsInDiscard.length > 0 ? this.state.cardsInDiscard.length-1 : 0} onClick={() => this.handleDrawCard()}/>;
-      objectivesComponent = <Objectives playerHasRedrawn={this.state.hasRedrawn} cardsDrawnByRival={this.state.cardsInDiscard.length} orientation={this.state.deviceOrientation} cards={this.state.selectedObjectives} onRedrawObjective={this.onRedrawSelected}/>;
+      objectivesComponent = <Objectives round={this.state.roundNumber} playerHasRedrawn={this.state.hasRedrawn} cardsDrawnByRival={this.state.cardsInDiscard.length} orientation={this.state.deviceOrientation} cards={this.state.selectedObjectives} onRedrawObjective={this.onRedrawSelected}/>;
     }
 
     let orientationName = 'cards-container-' + this.state.deviceOrientation;
@@ -600,11 +604,12 @@ class Objectives extends React.Component {
 
   render() {
     let containerClassName = 'Objectives-Container-' + this.props.orientation;
-    let objectivesImageClassName = 'Objectives-' + this.props.orientation;
 
     var objCards = [];
+    let numObjectives = this.props.cards.length;
+    let keyAddtion = numObjectives * (this.props.round - 1);
     for (var i = 0; i < this.props.cards.length; i++) {
-      objCards.push(<ObjectiveCard key={i} playerHasRedrawn={this.props.playerHasRedrawn} cardsDrawnByRival={this.props.cardsDrawnByRival} redrawHandler={this.props.onRedrawObjective} isFirst={i === 0} cardKey={i} orientation={this.props.orientation} card={this.props.cards[i] ? this.props.cards[i].front : null}/>)
+      objCards.push(<ObjectiveCard key={(i + 1) + keyAddtion} playerHasRedrawn={this.props.playerHasRedrawn} cardsDrawnByRival={this.props.cardsDrawnByRival} redrawHandler={this.props.onRedrawObjective} isFirst={i === 0} cardKey={i} orientation={this.props.orientation} card={this.props.cards[i] ? this.props.cards[i].front : null}/>)
     }
 
     return (
