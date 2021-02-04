@@ -661,7 +661,7 @@ class ObjectiveCard extends React.Component {
       radioGroup = <FormControl component="fieldset">
         <RadioGroup value={this.state.objectiveStatus} onChange={this.handleRadioChange}>
           <FormControlLabel key='1' value='1' control={<Radio color="primary" size="small"/>} label="Rival" />
-          <FormControlLabel key='2' value='2' control={<Radio color="primary" size="small" />} label="Player"/>
+          <FormControlLabel key='2' value='2' control={<Radio color="primary" size="small"/>} label="Player"/>
         </RadioGroup>
       </FormControl>;
     }
