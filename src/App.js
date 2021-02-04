@@ -656,12 +656,12 @@ class ObjectiveCard extends React.Component {
     var radioGroup = null;
     
     if (!this.props.playerHasRedrawn && this.props.cardsDrawnByRival === 1) {
-       radioGroup = <Button variant='contained' color="primary" onClick={() => this.props.redrawHandler(this.props.cardKey)}>Redraw</Button>
+       radioGroup = <Button className='Redraw-Button' size="small" variant='contained' color="primary" onClick={() => this.props.redrawHandler(this.props.cardKey)}>Redraw</Button>
     } else if (this.props.cardsDrawnByRival >= 1){
       radioGroup = <FormControl component="fieldset">
         <RadioGroup value={this.state.objectiveStatus} onChange={this.handleRadioChange}>
-          <FormControlLabel key='1' value='1' control={<Radio color="primary" />} label="Rival" />
-          <FormControlLabel key='2' value='2' control={<Radio color="primary" />} label="Player"/>
+          <FormControlLabel key='1' value='1' control={<Radio color="primary" size="small"/>} label="Rival" />
+          <FormControlLabel key='2' value='2' control={<Radio color="primary" size="small" />} label="Player"/>
         </RadioGroup>
       </FormControl>;
     }
