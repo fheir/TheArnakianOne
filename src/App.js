@@ -447,7 +447,7 @@ const GreenSlider = withStyles({
   root: {
     color: '#6b9c3a',
     height: 3,
-    padding: '13px 0',
+    marginBottom: 20
   },
 })(Slider);
 
@@ -455,7 +455,7 @@ const RedSlider = withStyles({
   root: {
     color: '#ad1018',
     height: 3,
-    padding: '13px 0',
+    marginBottom: 20
   },
 })(Slider);
 
@@ -463,9 +463,35 @@ const PurpleSlider = withStyles({
   root: {
     color: '#63298b',
     height: 3,
-    padding: '13px 0',
+    marginBottom: 20
   },
 })(Slider);
+
+const marks = [
+  {
+    value: 0,
+    label: '0',
+  },
+  {
+    value: 1,
+    label: '1',
+  },
+  {
+    value: 2,
+    label: '2',
+  },
+  {
+    value: 3,
+    label: '3',
+  },
+  {
+    value: 4,
+    label: '4',
+  }, {
+    value: 5,
+    label: '5',
+  }
+];
 
 class DifficultyController extends React.Component {
   constructor(props) {
@@ -476,7 +502,7 @@ class DifficultyController extends React.Component {
       difficulty: 0,
       numObjectives: 3,
       objectivesOn: true,
-      greenCards: 5,
+      greenCards: 0,
       redCards: 0,
       purpleCards: 0
     }
@@ -506,11 +532,37 @@ class DifficultyController extends React.Component {
     }));
   }
 
+  getMarksForSlider(slider, value) {
+    var currentSliderValue;
+    var cardsAlreadyAdded = this.state.greenCards + this.state.redCards + this.state.purpleCards;
+    var availableSpace = 5 - cardsAlreadyAdded; 
+    
+    if (slider === "green") {
+      currentSliderValue = this.state.greenCards + availableSpace;
+      console.log(slider + " " + currentSliderValue);
+    } else if (slider === "red") {
+      currentSliderValue = this.state.redCards + availableSpace;
+      console.log(slider + " " + currentSliderValue);
+    } else if (slider === "purple") {
+      currentSliderValue = this.state.purpleCards + availableSpace;
+      console.log(slider + " " + currentSliderValue);
+    }
+
+    var sliderMarks = [];
+    
+    for (var i = 0; i <= currentSliderValue; i++) {
+      sliderMarks.push({value: i, label:i});
+    }
+
+    return sliderMarks;
+
+  }
+
   render() {
     return (
     <div className='difficulty-container'>
       <Typography id="discrete-slider" gutterBottom>
-        Select Difficulty
+        Select Rival Action Cards
       </Typography>
       <ThemeProvider theme={theme}>
       <Typography variant='subtitle1' align='center' className="difficulty-text">
@@ -520,20 +572,20 @@ class DifficultyController extends React.Component {
       <div className='slider-container'>
         <GreenSlider
           className='slider-component'
-          defaultValue={5}
+          defaultValue={0}
           aria-labelledby="discrete-slider"
           valueLabelDisplay="auto"
-          marks={true}
-          step={1}
+          marks={this.getMarksForSlider("green", this.state.greenCards)}
+          step={null}
           min={0}
           max={5}
           onChange={(e, value) => this.setState(() => ({
-            difficultyText: this.friendlyDifficultyString(),
-            greenCards: value
+            difficultyText: this.friendlyDifficultyString("green", value),
+            greenCards: value,
           }))}
           onChangeCommitted={(e, value) => this.setState(() => ({
-            difficultyText: this.friendlyDifficultyString(),
-            greenCards: value
+            difficultyText: this.friendlyDifficultyString("green", value),
+            greenCards: value,
           }))}
         />
       </div>
@@ -543,8 +595,8 @@ class DifficultyController extends React.Component {
           defaultValue={0}
           aria-labelledby="discrete-slider"
           valueLabelDisplay="auto"
-          marks={true}
-          step={1}
+          marks={this.getMarksForSlider("red", this.state.redCards)}
+          step={null}
           min={0}
           max={5}
           onChange={(e, value) => this.setState(() => ({
@@ -563,8 +615,8 @@ class DifficultyController extends React.Component {
           defaultValue={0}
           aria-labelledby="discrete-slider"
           valueLabelDisplay="auto"
-          marks={true}
-          step={1}
+          marks={this.getMarksForSlider("purple", this.state.purpleCards)}
+          step={null}
           min={0}
           max={5}
           onChange={(e, value) => this.setState(() => ({
