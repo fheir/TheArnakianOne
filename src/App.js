@@ -35,7 +35,7 @@ import objectiveBack from './images/objective_back.png';
 import './App.css';
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { createMuiTheme, ThemeProvider, withStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -285,7 +285,7 @@ class GameController extends React.Component {
     }
   }
 
-  onDifficultySelected(selectedDifficulty, numObjectives, objectivesOn) {
+  onDifficultySelected(selectedDifficulty, greenCards, redCards, purpleCards, numObjectives, objectivesOn) {
     var drawPile = BasicCards.slice();
 
     if (selectedDifficulty % 5 === 0) {
@@ -443,40 +443,57 @@ const theme = createMuiTheme({
   },
 });
 
+const GreenSlider = withStyles({
+  root: {
+    color: '#6b9c3a',
+    height: 3,
+    padding: '13px 0',
+  },
+})(Slider);
+
+const RedSlider = withStyles({
+  root: {
+    color: '#ad1018',
+    height: 3,
+    padding: '13px 0',
+  },
+})(Slider);
+
+const PurpleSlider = withStyles({
+  root: {
+    color: '#63298b',
+    height: 3,
+    padding: '13px 0',
+  },
+})(Slider);
+
 class DifficultyController extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      difficultyText: "5 Green Cards", 
+      difficultyText: "Difficulty Level: 0", 
       difficulty: 0,
       numObjectives: 3,
-      objectivesOn: true
+      objectivesOn: true,
+      greenCards: 5,
+      redCards: 0,
+      purpleCards: 0
     }
 
     this.toggleObjectives = this.toggleObjectives.bind(this);
   }
 
-  friendlyDifficultyString() {
-    var friendlyString = "";
-    if (this.state.difficulty % difficultyCardCount === 0) {
-      if (this.state.difficulty === 0) {
-        friendlyString = "5 Green Cards";
-      } else if (this.state.difficulty === 5) {
-        friendlyString = "5 Red Cards";
-      } else if (this.state.difficulty === 10) {
-        friendlyString = "5 Purple Cards";
-      }
-    } else {
-      var normalizedDifficulty =  this.state.difficulty % 5;
-      var baseCardCount = difficultyCardCount - normalizedDifficulty;
-      if (this.state.difficulty < 5) {   
-        friendlyString = baseCardCount + " Green " + this.state.difficulty + " Red Cards";
-      } else if (this.state.difficulty > 5) { 
-        friendlyString = baseCardCount + " Red " + normalizedDifficulty + " Purple Cards";
-      }
+  friendlyDifficultyString(slider, value) {
+    var difficulty = this.state.redCards * 1 + this.state.purpleCards * 2;
+
+    if (slider === "red") {
+      difficulty = value * 1 + this.state.purpleCards * 2;
+    } else if (slider === "purple") {
+      difficulty = this.state.redCards * 1 + value * 2;
     }
 
+    let friendlyString = "Difficulty Level: " + difficulty;
     return friendlyString;
   }
 
@@ -501,7 +518,27 @@ class DifficultyController extends React.Component {
       </Typography>
       </ThemeProvider>
       <div className='slider-container'>
-        <Slider
+        <GreenSlider
+          className='slider-component'
+          defaultValue={5}
+          aria-labelledby="discrete-slider"
+          valueLabelDisplay="auto"
+          marks={true}
+          step={1}
+          min={0}
+          max={5}
+          onChange={(e, value) => this.setState(() => ({
+            difficultyText: this.friendlyDifficultyString(),
+            greenCards: value
+          }))}
+          onChangeCommitted={(e, value) => this.setState(() => ({
+            difficultyText: this.friendlyDifficultyString(),
+            greenCards: value
+          }))}
+        />
+      </div>
+      <div className='slider-container'>
+        <RedSlider
           className='slider-component'
           defaultValue={0}
           aria-labelledby="discrete-slider"
@@ -509,14 +546,34 @@ class DifficultyController extends React.Component {
           marks={true}
           step={1}
           min={0}
-          max={10}
+          max={5}
           onChange={(e, value) => this.setState(() => ({
-            difficultyText: this.friendlyDifficultyString(),
-            difficulty: value
+            difficultyText: this.friendlyDifficultyString("red", value),
+            redCards: value
           }))}
           onChangeCommitted={(e, value) => this.setState(() => ({
-            difficultyText: this.friendlyDifficultyString(),
-            difficulty: value
+            difficultyText: this.friendlyDifficultyString("red", value),
+            redCards: value
+          }))}
+        />
+      </div>
+      <div className='slider-container'>
+        <PurpleSlider
+          className='slider-component'
+          defaultValue={0}
+          aria-labelledby="discrete-slider"
+          valueLabelDisplay="auto"
+          marks={true}
+          step={1}
+          min={0}
+          max={5}
+          onChange={(e, value) => this.setState(() => ({
+            difficultyText: this.friendlyDifficultyString("purple", value),
+            purpleCards: value
+          }))}
+          onChangeCommitted={(e, value) => this.setState(() => ({
+            difficultyText: this.friendlyDifficultyString("purple", value),
+            purpleCards: value
           }))}
         />
       </div>
@@ -543,7 +600,7 @@ class DifficultyController extends React.Component {
           }))}
         />
       </div>
-      <Button variant='contained' color='primary' onClick={() => this.props.onClick(this.state.difficulty, this.state.numObjectives, this.state.objectivesOn)}>Start</Button>
+      <Button variant='contained' color='primary' onClick={() => this.props.onClick(this.state.difficulty, this.state.greenCards, this.state.redCards, this.state.purpleCards, this.state.numObjectives, this.state.objectivesOn)}>Start</Button>
     </div>
     );
   }
