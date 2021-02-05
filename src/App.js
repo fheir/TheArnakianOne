@@ -288,25 +288,30 @@ class GameController extends React.Component {
   onDifficultySelected(selectedDifficulty, greenCards, redCards, purpleCards, numObjectives, objectivesOn) {
     var drawPile = BasicCards.slice();
 
-    if (selectedDifficulty % 5 === 0) {
-      if (selectedDifficulty === 0) {
-        drawPile = shuffle(drawPile.concat(GreenCards));
-      } else if (selectedDifficulty === 5) {
-        drawPile = shuffle(drawPile.concat(RedCards));
-      } else if (selectedDifficulty === 10) {
-        drawPile = shuffle(drawPile.concat(PurpleCards));
-      }
-    } else {
-      var selectedCards = [];
+    // if (selectedDifficulty % 5 === 0) {
+    //   if (selectedDifficulty === 0) {
+    //     drawPile = shuffle(drawPile.concat(GreenCards));
+    //   } else if (selectedDifficulty === 5) {
+    //     drawPile = shuffle(drawPile.concat(RedCards));
+    //   } else if (selectedDifficulty === 10) {
+    //     drawPile = shuffle(drawPile.concat(PurpleCards));
+    //   }
+    // } else {
+    //   var selectedCards = [];
 
-      if (selectedDifficulty < 5) {   
-        selectedCards = this.selectDifficultyCards(selectedDifficulty, GreenCards.slice(), RedCards.slice());
-      } else if (selectedDifficulty > 5) { 
-        selectedCards = this.selectDifficultyCards(selectedDifficulty % 5, RedCards.slice(), PurpleCards.slice());
-      }
+    //   if (selectedDifficulty < 5) {   
+    //    // selectedCards = this.selectDifficultyCards(selectedDifficulty % 5, GreenCards.slice(), RedCards.slice());
+    //     selectedCards = this.selectDifficultyCards([greenCards, redCards, purpleCards]);
+    //   } else if (selectedDifficulty > 5) { 
+    //     selectedCards = this.selectDifficultyCards(selectedDifficulty % 5, RedCards.slice(), PurpleCards.slice());
+    //   }
 
-      drawPile = shuffle(drawPile.concat(selectedCards));
-    }
+    //   drawPile = shuffle(drawPile.concat(selectedCards));
+    // }
+    var selectedCards = [];
+    selectedCards = this.selectDifficultyCards([greenCards, redCards, purpleCards]);
+    drawPile = shuffle(drawPile.concat(selectedCards));
+
 
     if (!objectivesOn) {
       numObjectives = 0;
@@ -323,29 +328,96 @@ class GameController extends React.Component {
     }));
   }
 
-  selectDifficultyCards(selectedDifficulty, baseCards, extraCards) {
+  selectDifficultyCards(cardTypes) {
     var selectedCards = [];
     var i = 1;
 
-    while (i <= selectedDifficulty) {
-      var randomExtraIndex = Math.floor(Math.random() * extraCards.length);
+    var greenCount = cardTypes[0];
+    var redCount = cardTypes[1];
+    var purpleCount = cardTypes[2];
 
-      var selectedExtra = extraCards.splice(randomExtraIndex, 1);
-      selectedCards.push(selectedExtra[0]);    
+    var green = GreenCards.slice();
+    var red = RedCards.slice();
+    var purple = PurpleCards.slice();
 
-      const selectedId = selectedExtra[0].id;
+    var count = 0;
 
-      //Remove pair from base cards
-      baseCards = baseCards.filter(function (e) {
+    //TODO move this into function
+    while (count < greenCount) {
+      var randomGreenIndex = Math.floor(Math.random() * green.length);
+
+      var selectedCard = green.splice(randomGreenIndex, 1);
+      selectedCards.push(selectedCard[0]);
+
+      const selectedId = selectedCard[0].id;
+
+      //Remove pair from base cards: TODO put red and purple into base cards.  THen when doing red, just put purple in
+      red = red.filter(function (e) {
         return e.id !== selectedId;
       });
 
-      i++;
+      purple = purple.filter(function (e) {
+        return e.id !== selectedId;
+      });
+
+      count++;
     }
 
-    selectedCards = selectedCards.concat(baseCards);
+    count = 0;
+
+    while (count < redCount) {
+      var randomRedIndex = Math.floor(Math.random() * red.length);
+
+      var selectedCard = red.splice(randomRedIndex, 1);
+      selectedCards.push(selectedCard[0]);
+
+      const selectedId = selectedCard[0].id;
+
+      purple = purple.filter(function (e) {
+        return e.id !== selectedId;
+      });
+
+      count++;
+    }
+
+    count = 0;
+
+    while (count < purpleCount) {
+      var randomPurpleIndex = Math.floor(Math.random() * purple.length);
+
+      var selectedCard = purple.splice(randomPurpleIndex, 1);
+      selectedCards.push(selectedCard[0]);
+
+      count++;
+    }
+
+    console.log(selectedCards);
     return selectedCards;
   }
+
+  // selectDifficultyCards(selectedDifficulty, baseCards, extraCards) {
+  //   var selectedCards = [];
+  //   var i = 1;
+
+  //   while (i <= selectedDifficulty) {
+  //     var randomExtraIndex = Math.floor(Math.random() * extraCards.length);
+
+  //     var selectedExtra = extraCards.splice(randomExtraIndex, 1);
+  //     selectedCards.push(selectedExtra[0]);    
+
+  //     const selectedId = selectedExtra[0].id;
+
+  //     //Remove pair from base cards
+  //     baseCards = baseCards.filter(function (e) {
+  //       return e.id !== selectedId;
+  //     });
+
+  //     i++;
+  //   }
+
+  //   selectedCards = selectedCards.concat(baseCards);
+  //   return selectedCards;
+  // }
 
   selectObjectiveCards(numObjectives) {
     var tempObjectives = shuffle(ObjectiveCards.slice());
@@ -555,7 +627,6 @@ class DifficultyController extends React.Component {
     }
 
     return sliderMarks;
-
   }
 
   render() {
