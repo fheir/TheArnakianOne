@@ -209,7 +209,7 @@ class App extends React.Component {
   render() {
     return (
       <div className='root-container'>
-        <Typography align='center' variant='h5'>Lost Ruins of Arnak Solo Helper</Typography>
+        <Typography align='center' variant='h5'>Lost Ruins of <a href='http://www.arnak.game' target="_blank">Arnak</a> Solo Helper</Typography>
         <GameController />
       </div> 
     );
