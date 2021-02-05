@@ -779,7 +779,7 @@ class ObjectiveCard extends React.Component {
   
   
   handleRadioChange(event) {
-    let newStatus = event.target.value;
+    let newStatus = event.target.value === this.state.objectiveStatus ? ObjectiveStatusEnum.Incomplete : event.target.value;
     
     this.setState(() => ({
       objectiveStatus: newStatus
@@ -799,7 +799,7 @@ class ObjectiveCard extends React.Component {
        radioGroup = <Button className='Redraw-Button' size="small" variant='contained' color="primary" onClick={() => this.props.redrawHandler(this.props.cardKey)}>Redraw</Button>
     } else if (this.props.cardsDrawnByRival >= 1){
       radioGroup = <FormControl component="fieldset">
-        <RadioGroup value={this.state.objectiveStatus} onChange={this.handleRadioChange}>
+        <RadioGroup value={this.state.objectiveStatus} onClick={this.handleRadioChange}>
           <ThemeProvider theme={theme}>
             <FormControlLabel key='1' value='1' control={<Radio color="primary" size="small"/>} label="Rival" />
             <FormControlLabel key='2' value='2' control={<Radio color="primary" size="small"/>} label="Player"/>
