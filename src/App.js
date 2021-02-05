@@ -288,26 +288,6 @@ class GameController extends React.Component {
   onDifficultySelected(selectedDifficulty, greenCards, redCards, purpleCards, numObjectives, objectivesOn) {
     var drawPile = BasicCards.slice();
 
-    // if (selectedDifficulty % 5 === 0) {
-    //   if (selectedDifficulty === 0) {
-    //     drawPile = shuffle(drawPile.concat(GreenCards));
-    //   } else if (selectedDifficulty === 5) {
-    //     drawPile = shuffle(drawPile.concat(RedCards));
-    //   } else if (selectedDifficulty === 10) {
-    //     drawPile = shuffle(drawPile.concat(PurpleCards));
-    //   }
-    // } else {
-    //   var selectedCards = [];
-
-    //   if (selectedDifficulty < 5) {   
-    //    // selectedCards = this.selectDifficultyCards(selectedDifficulty % 5, GreenCards.slice(), RedCards.slice());
-    //     selectedCards = this.selectDifficultyCards([greenCards, redCards, purpleCards]);
-    //   } else if (selectedDifficulty > 5) { 
-    //     selectedCards = this.selectDifficultyCards(selectedDifficulty % 5, RedCards.slice(), PurpleCards.slice());
-    //   }
-
-    //   drawPile = shuffle(drawPile.concat(selectedCards));
-    // }
     var selectedCards = [];
     selectedCards = this.selectDifficultyCards([greenCards, redCards, purpleCards]);
     drawPile = shuffle(drawPile.concat(selectedCards));
@@ -316,6 +296,7 @@ class GameController extends React.Component {
     if (!objectivesOn) {
       numObjectives = 0;
     }
+
     var tempObjectives = objectivesOn ? this.selectObjectiveCards(numObjectives) : [];
 
     this.setState(() => ({
@@ -395,29 +376,6 @@ class GameController extends React.Component {
     return selectedCards;
   }
 
-  // selectDifficultyCards(selectedDifficulty, baseCards, extraCards) {
-  //   var selectedCards = [];
-  //   var i = 1;
-
-  //   while (i <= selectedDifficulty) {
-  //     var randomExtraIndex = Math.floor(Math.random() * extraCards.length);
-
-  //     var selectedExtra = extraCards.splice(randomExtraIndex, 1);
-  //     selectedCards.push(selectedExtra[0]);    
-
-  //     const selectedId = selectedExtra[0].id;
-
-  //     //Remove pair from base cards
-  //     baseCards = baseCards.filter(function (e) {
-  //       return e.id !== selectedId;
-  //     });
-
-  //     i++;
-  //   }
-
-  //   selectedCards = selectedCards.concat(baseCards);
-  //   return selectedCards;
-  // }
 
   selectObjectiveCards(numObjectives) {
     var tempObjectives = shuffle(ObjectiveCards.slice());
@@ -629,11 +587,15 @@ class DifficultyController extends React.Component {
     return sliderMarks;
   }
 
+  hasSelectedFiveCards() {
+    return this.state.greenCards + this.state.redCards + this.state.purpleCards == 5;
+  }
+
   render() {
     return (
     <div className='difficulty-container'>
       <Typography id="discrete-slider" gutterBottom>
-        Select Rival Action Cards
+        Select <b>5</b> Rival Action Cards
       </Typography>
       <ThemeProvider theme={theme}>
       <Typography variant='subtitle1' align='center' className="difficulty-text">
@@ -723,7 +685,7 @@ class DifficultyController extends React.Component {
           }))}
         />
       </div>
-      <Button variant='contained' color='primary' onClick={() => this.props.onClick(this.state.difficulty, this.state.greenCards, this.state.redCards, this.state.purpleCards, this.state.numObjectives, this.state.objectivesOn)}>Start</Button>
+      <Button variant='contained' disabled={!this.hasSelectedFiveCards()} color='primary' onClick={() => this.props.onClick(this.state.difficulty, this.state.greenCards, this.state.redCards, this.state.purpleCards, this.state.numObjectives, this.state.objectivesOn)}>Start</Button>
     </div>
     );
   }
