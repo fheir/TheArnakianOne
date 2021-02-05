@@ -267,7 +267,6 @@ class GameController extends React.Component {
 
     }
 
-    console.log(orientation);
     this.setState(() => ({
       deviceOrientation: orientation
     }));
@@ -372,7 +371,6 @@ class GameController extends React.Component {
       count++;
     }
 
-    console.log(selectedCards);
     return selectedCards;
   }
 
@@ -471,6 +469,13 @@ const theme = createMuiTheme({
       fontSize:20
     }
   },
+  overrides: {
+    MuiTypography: {
+      body1: {
+        'font-size':'0.8rem'
+      }
+    },
+  }
 });
 
 const GreenSlider = withStyles({
@@ -556,7 +561,6 @@ class DifficultyController extends React.Component {
   toggleObjectives() {
     let toggleState = !this.state.objectivesOn;
 
-    console.log('toggle');
     this.setState(() => ({
       objectivesOn: toggleState
     }));
@@ -569,13 +573,10 @@ class DifficultyController extends React.Component {
     
     if (slider === "green") {
       currentSliderValue = this.state.greenCards + availableSpace;
-      console.log(slider + " " + currentSliderValue);
     } else if (slider === "red") {
       currentSliderValue = this.state.redCards + availableSpace;
-      console.log(slider + " " + currentSliderValue);
     } else if (slider === "purple") {
       currentSliderValue = this.state.purpleCards + availableSpace;
-      console.log(slider + " " + currentSliderValue);
     }
 
     var sliderMarks = [];
@@ -778,9 +779,7 @@ class ObjectiveCard extends React.Component {
   
   
   handleRadioChange(event) {
-    console.log(this.state.objectiveStatus);
     let newStatus = event.target.value;
-    console.log(newStatus);
     
     this.setState(() => ({
       objectiveStatus: newStatus
@@ -788,7 +787,6 @@ class ObjectiveCard extends React.Component {
   }
 
   render() {
-    console.log(this.props.cardKey);
     var objectivesImageClassName = 'Objectives-' + this.props.orientation;
     let baseDivClass = 'ObjectiveCardHolder-' + this.props.orientation;
     let divName = this.props.isFirst ? baseDivClass + '-first' : baseDivClass;
@@ -802,8 +800,10 @@ class ObjectiveCard extends React.Component {
     } else if (this.props.cardsDrawnByRival >= 1){
       radioGroup = <FormControl component="fieldset">
         <RadioGroup value={this.state.objectiveStatus} onChange={this.handleRadioChange}>
-          <FormControlLabel key='1' value='1' control={<Radio color="primary" size="small"/>} label="Rival" />
-          <FormControlLabel key='2' value='2' control={<Radio color="primary" size="small"/>} label="Player"/>
+          <ThemeProvider theme={theme}>
+            <FormControlLabel key='1' value='1' control={<Radio color="primary" size="small"/>} label="Rival" />
+            <FormControlLabel key='2' value='2' control={<Radio color="primary" size="small"/>} label="Player"/>
+          </ThemeProvider>
         </RadioGroup>
       </FormControl>;
     }
